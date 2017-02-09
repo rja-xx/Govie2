@@ -9,8 +9,8 @@ Save your films at the movies
 * CD into the project folder (cd Govie2)
 * Download dependencies (npm install)
 * Run client (ionic serve) 
-* The app will now spawn in your default browser, we recomend Chrom
-* Open Chrome devtools and activate the device toolbar (cmd+shift+M)
+* The app will now spawn in your default browser, we recomend Chrome
+* Open devtools and activate the device toolbar (cmd+shift+M)
 
 ## Recomended tools:
 * WebStorm or Atom editor (Atom is free)
