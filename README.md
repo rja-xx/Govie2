@@ -1,9 +1,8 @@
 # Govie2
 Save your films at the movies
 
-## Setup for mac
-* Make sure git is installed (git --version)
-** On os x you might need to update xcode (xcode-select --install)
+## Setup for mac in Terminal
+* Make sure git is installed. (git --version) On os x you might need to update xcode (xcode-select --install)
 * Clone project (git clone https://github.com/rja-xx/Govie2.git)
 * Download and install latest LTS version of Node.js  (v6.9.5) (https://nodejs.org)
 * Install cordova and ionic (sudo npm install -g cordova ionic)
