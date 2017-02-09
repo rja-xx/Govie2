@@ -1,5 +1,5 @@
 # Govie2
-Save your films at the movies
+Save your films at the movies. A spare time project by Ionic enthusiasts.
 
 ## Setup for mac in Terminal
 * Make sure git is installed. (git --version) On os x you might need to update xcode (xcode-select --install)
