@@ -24,8 +24,7 @@ export class WallPage {
                 public events:Events,
                 cd:ChangeDetectorRef,
                 public modalCtrl:ModalController,
-                public userService:UserService,
-                public moment:Moment) {
+                public userService:UserService) {
         this.user = 'hei';
         this.user = 'sann';
 
