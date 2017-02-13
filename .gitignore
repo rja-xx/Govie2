@@ -1,6 +1,6 @@
-node_modules/
-www/build/
-platforms/
-plugins/
+client/node_modules/
+client/www/build/
+client/platforms/
+client/plugins/
 .DS_Store
 .idea
