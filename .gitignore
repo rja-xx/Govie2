@@ -2,5 +2,6 @@ client/node_modules/
 client/www/build/
 client/platforms/
 client/plugins/
+server/govieserver/target
 .DS_Store
 .idea
