@@ -24,9 +24,8 @@ public class UserEventListener implements ChildEventListener {
     private UserIndex userIndex;
 
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Map<String, String> value;
-        value = dataSnapshot.getValue(TYPE);
-        userIndex.add(new User(value));
+        logger.info("add user to index " + s);
+        userIndex.add(User.fromDataSnapshot(dataSnapshot, User.class));
     }
 
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {

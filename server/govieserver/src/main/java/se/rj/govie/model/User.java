@@ -1,10 +1,12 @@
 package se.rj.govie.model;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.util.Map;
-
-public class User {
+public class User extends IndexableObject {
 
     private final String uid;
 
@@ -12,14 +14,15 @@ public class User {
 
     private final String avatarUrl;
 
-    public User(Map<String, String> values) {
-        this.uid = values.get("uid");
-        this.avatarUrl = values.get("avatarUrl");
-        this.name = values.get("name");
-    }
-
-    public String getUid() {
-        return uid;
+    @JsonCreator
+    public User(@JsonProperty("id") String id,
+                @JsonProperty("uid") String uid,
+                @JsonProperty("name") String name,
+                @JsonProperty("avatarUrl") String avatarUrl) {
+        super(id);
+        this.uid = uid;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getName() {
@@ -30,12 +33,53 @@ public class User {
         return avatarUrl;
     }
 
+    public String getUid() {
+        return uid;
+    }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("name", name)
-                .append("avatarUrl", avatarUrl)
-                .toString();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof User)) {
+            return false;
+        }
+
+        User user = (User) o;
+
+        return new EqualsBuilder()
+                .append(getUid(), user.getUid())
+                .append(getName(), user.getName())
+                .append(getAvatarUrl(), user.getAvatarUrl())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getUid())
+                .append(getName())
+                .append(getAvatarUrl())
+                .toHashCode();
+    }
+
+    @JsonIgnore
+    @Override
+    public String getIndex() {
+        return "userindex";
+    }
+
+    @JsonIgnore
+    @Override
+    public String getType() {
+        return "user";
+    }
+
+    @JsonIgnore
+    @Override
+    public String getId() {
+        return uid;
     }
 }
