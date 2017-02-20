@@ -40,12 +40,15 @@ export class WallPage {
         });
 
         this.i = 5;
-        setTimeout(_ => this.i = 8, 5000);
+        setTimeout(_ => {
+            if (this.userService.currentUser() === null) {
+                this.promptLogin();
+            }
+        }, 1000);
     }
 
 
     ionViewDidLoad() {
-        this.promptLogin();
     }
 
     timeAgo() {

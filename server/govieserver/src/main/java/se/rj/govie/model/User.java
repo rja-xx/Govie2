@@ -8,6 +8,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class User extends IndexableObject {
 
+    public static final String USER_TYPE = "user";
+
     private final String uid;
 
     private final String name;
@@ -67,14 +69,8 @@ public class User extends IndexableObject {
 
     @JsonIgnore
     @Override
-    public String getIndex() {
-        return "userindex";
-    }
-
-    @JsonIgnore
-    @Override
     public String getType() {
-        return "user";
+        return USER_TYPE;
     }
 
     @JsonIgnore

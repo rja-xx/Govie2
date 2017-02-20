@@ -13,11 +13,12 @@ export class UserService {
     }
 
     login(events) {
+        debugger;
         if (this.currentUser() === null) {
             return firebase.auth().signInWithPopup(this.twitterProvider).then(function (authData) {
-                var u = new User(authData.user.uid, authData.user.photoURL, authData.user.displayName);
-                events.publish("user:login", u);
-                firebase.database().ref("govie/users").push(u);
+                var user = new User(authData.user.uid, authData.user.photoURL, authData.user.displayName);
+                events.publish("user:login", user);
+                firebase.database().ref("govie/users").push(user);
             }).catch(function (error) {
                 console.log(error);
                 events.publish("error:login");
@@ -38,6 +39,21 @@ export class UserService {
 
     currentUser() {
         return firebase.auth().currentUser;
+    }
+
+    searchUser(val:string, events) {
+        if (this.currentUser() !== null) {
+            var uid = this.currentUser().uid;
+            firebase.database().ref("govie/response/search/user/" + uid).on('value', function fn(snapshot) {
+                if (snapshot.val() !== null) {
+                    snapshot.ref.off('value');
+                    snapshot.ref.remove();
+                    var val = snapshot.val();
+                    events.publish('user:search:result', val);
+                }
+            });
+            firebase.database().ref("govie/request/search/user").push({user: uid, term: val});
+        }
     }
 }
 

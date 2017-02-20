@@ -1,12 +1,14 @@
 package se.rj.govie.search;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.stereotype.Component;
 import se.rj.govie.model.IndexableObject;
+import se.rj.govie.search.index.Index;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -34,9 +36,13 @@ public class ElasticSearchAgent {
         client.close();
     }
 
-    public void addToIndex(IndexableObject obj) {
-        client.prepareIndex(obj.getIndex(), obj.getType(), obj.getId())
+    public void addToIndex(Index index, IndexableObject obj) {
+        client.prepareIndex(index.getIndex(), obj.getType(), obj.getId())
               .setSource(obj.toJson())
               .get();
+    }
+
+    public SearchRequestBuilder prepareSearch(String... indices) {
+        return client.prepareSearch(indices);
     }
 }

@@ -10,6 +10,8 @@ public abstract class Index<T extends IndexableObject> {
     private ElasticSearchAgent elasticSearchAgent;
 
     public void add(T indexableObject) {
-        elasticSearchAgent.addToIndex(indexableObject);
+        elasticSearchAgent.addToIndex(this, indexableObject);
     }
+
+    public abstract String getIndex();
 }

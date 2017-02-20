@@ -3,7 +3,6 @@ package se.rj.govie.firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseCredentials;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,10 @@ import java.io.FileNotFoundException;
 public class FirebaseAgent {
 
     @Autowired
-    private UserEventListener listener;
+    private UserEventListener userEventListener;
+
+    @Autowired
+    private SearchUserRequestListener searchUserRequestListener;
 
     public void connect() {
         try {
@@ -39,11 +41,16 @@ public class FirebaseAgent {
     }
 
     private void setupUserEventListener(FirebaseDatabase firebaseDatabase) {
-        DatabaseReference searchUserRequest = firebaseDatabase.getReference("govie/users");
-        searchUserRequest.addChildEventListener(listener);
+        firebaseDatabase.getReference("govie/users").addChildEventListener(userEventListener);
+        firebaseDatabase.getReference("govie/request/search/user").addChildEventListener(searchUserRequestListener);
     }
 
     public void disconnect() {
 
+    }
+
+    public void pushResponse(String recipient, RequestType requestType, Object result) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("govie/response/" + requestType.getResponseQueue() + "/" + recipient).setValue(result);
     }
 }
