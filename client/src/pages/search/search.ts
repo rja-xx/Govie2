@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef} from '@angular/core';
 import { UserService } from "../../providers/session/UserService";
 import { NavController } from 'ionic-angular';
 import {Events} from "ionic-angular/index";
+import {User} from "../../model/user";
 
 @Component({
     selector: 'page-search',
@@ -33,6 +34,10 @@ export class SearchPage {
             console.log('searching for ' + val.toLowerCase());
             this.userService.searchUser(val.toLowerCase(), this.events);
         }
+    }
+
+    chooseUser(user) {
+        console.log(user);
     }
 
 }
