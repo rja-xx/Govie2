@@ -18,6 +18,7 @@ export class SearchPage {
                 public userService:UserService) {
         this.items = [];
         this.searchQuery = '';
+        this.searchType = 'movies';
         events.subscribe('user:search:result', (result) => {
             console.log(result);
             this.items = result;
@@ -27,6 +28,7 @@ export class SearchPage {
 
     searchQuery:string;
     items:string[];
+    searchType:string;
 
     getItems(ev:any) {
         let val = ev.target.value;

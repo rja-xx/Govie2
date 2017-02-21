@@ -1,15 +1,34 @@
 <ion-header>
     <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="searchType">
+            <ion-segment-button value="movies">
+                At cinemas
+            </ion-segment-button>
+            <ion-segment-button value="users">
+                Users
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
-    <ion-list>
-        <ion-item *ngFor="let item of items" (click)="chooseUser(item)">
-            <ion-thumbnail item-left>
-                <img src="{{item.avatarUrl}}">
-            </ion-thumbnail>
-            <h2> {{ item.name }}</h2>
-        </ion-item>
-    </ion-list>
+    <div [ngSwitch]="searchType">
+        <ion-list *ngSwitchCase="'users'">
+            <ion-item *ngFor="let item of items" (click)="chooseUser(item)">
+                <ion-thumbnail item-left>
+                    <img src="{{item.avatarUrl}}">
+                </ion-thumbnail>
+                <h2> {{ item.name }}</h2>
+            </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'movies'">
+            <ion-item *ngFor="let item of items" (click)="chooseUser(item)">
+                <ion-thumbnail item-left>
+                    <img src="{{item.avatarUrl}}">
+                </ion-thumbnail>
+                <h2> movie {{ item.name }}</h2>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>

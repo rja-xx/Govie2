@@ -12,8 +12,8 @@ import { EventsPage } from '../events/events';
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = WallPage;
-  tab2Root: any = SearchPage;
+  tab1Root: any = SearchPage;
+  tab2Root: any = WallPage;
   tab3Root: any = GoviePage;
   tab4Root: any = EventsPage;
   tab5Root: any = ProfilePage;
