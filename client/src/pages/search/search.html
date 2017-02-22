@@ -15,7 +15,7 @@
 <ion-content padding>
     <div [ngSwitch]="searchType">
         <ion-list *ngSwitchCase="'users'">
-            <ion-item *ngFor="let item of items" (click)="chooseUser(item)">
+            <ion-item *ngFor="let item of users" (click)="chooseUser(item)">
                 <ion-thumbnail item-left>
                     <img src="{{item.avatarUrl}}">
                 </ion-thumbnail>
@@ -23,7 +23,7 @@
             </ion-item>
         </ion-list>
         <ion-list *ngSwitchCase="'movies'">
-            <ion-item *ngFor="let item of items" (click)="chooseUser(item)">
+            <ion-item *ngFor="let item of movies">
                 <ion-thumbnail item-left>
                     <img src="{{item.avatarUrl}}">
                 </ion-thumbnail>

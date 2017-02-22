@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseCredentials;
 import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.rj.govie.firebase.listeners.SearchMovieRequestListener;
 import se.rj.govie.firebase.listeners.UserEventListener;
 
 import java.io.FileInputStream;
@@ -19,6 +20,9 @@ public class FirebaseAgent {
 
     @Autowired
     private SearchUserRequestListener searchUserRequestListener;
+
+    @Autowired
+    private SearchMovieRequestListener searchMovieRequestListener;
 
     public void connect() {
         try {
@@ -43,6 +47,7 @@ public class FirebaseAgent {
     private void setupUserEventListener(FirebaseDatabase firebaseDatabase) {
         firebaseDatabase.getReference("govie/users").addChildEventListener(userEventListener);
         firebaseDatabase.getReference("govie/request/search/user").addChildEventListener(searchUserRequestListener);
+        firebaseDatabase.getReference("govie/request/search/movie").addChildEventListener(searchMovieRequestListener);
     }
 
     public void disconnect() {

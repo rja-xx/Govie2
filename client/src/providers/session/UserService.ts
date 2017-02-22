@@ -6,7 +6,6 @@ import {User} from "../../model/user";
 export class UserService {
 
     private twitterProvider:any;
-    public user:User;
 
     init() {
         this.twitterProvider = new firebase.auth.TwitterAuthProvider();

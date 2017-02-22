@@ -24,5 +24,6 @@ public class SearchUserRequestListener extends ChildEventAdapter {
         SearchUserRequest request = SearchUserRequest.fromDataSnapshot(dataSnapshot, SearchUserRequest.class);
         dataSnapshot.getRef().removeValue();
         firebaseAgent.pushResponse(request.getUser(), RequestType.USER_SEARCH, userIndex.searchByName(request));
+        logger.info("Executed user search for " + request.getTerm());
     }
 }
