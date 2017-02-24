@@ -1,34 +1,46 @@
 package se.rj.govie.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Movie {
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
-    private final String tmdbid;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Movie extends GovieObject {
+
+
+    private final String id;
 
     private final String posterPath;
 
     private final String backdropPath;
 
-    private final String name;
+    private final String title;
 
+    private final LocalDate releaseDate;
 
     @JsonCreator
-    public Movie(@JsonProperty("tmdbid") String tmdbid,
-                 @JsonProperty("posterPath") String posterPath,
-                 @JsonProperty("backdropPath") String backdropPath,
-                 @JsonProperty("name") String name) {
-        this.tmdbid = tmdbid;
+    public Movie(@JsonProperty("id") String id,
+                 @JsonProperty("poster_path") String posterPath,
+                 @JsonProperty("backdrop_path") String backdropPath,
+                 @JsonProperty("title") String title,
+                 @JsonProperty("release_date") Date releaseDate) {
+        this.id = id;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
-        this.name = name;
+        this.title = title;
+        this.releaseDate = Instant.ofEpochMilli(releaseDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    public String getTmdbid() {
-        return tmdbid;
+    public String getId() {
+        return id;
     }
 
     public String getPosterPath() {
@@ -39,8 +51,12 @@ public class Movie {
         return backdropPath;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
 
@@ -57,20 +73,37 @@ public class Movie {
         }
         Movie rhs = (Movie) obj;
         return new EqualsBuilder()
-                .append(this.tmdbid, rhs.tmdbid)
+                .appendSuper(super.equals(obj))
+                .append(this.id, rhs.id)
                 .append(this.posterPath, rhs.posterPath)
                 .append(this.backdropPath, rhs.backdropPath)
-                .append(this.name, rhs.name)
+                .append(this.title, rhs.title)
+                .append(this.releaseDate, rhs.releaseDate)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(tmdbid)
+                .appendSuper(super.hashCode())
+                .append(id)
                 .append(posterPath)
                 .append(backdropPath)
-                .append(name)
+                .append(title)
+                .append(releaseDate)
                 .toHashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("id", id)
+                .append("posterPath", posterPath)
+                .append("backdropPath", backdropPath)
+                .append("title", title)
+                .append("releaseDate", releaseDate)
+                .toString();
     }
 }

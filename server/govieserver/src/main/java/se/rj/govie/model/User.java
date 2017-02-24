@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class User extends IndexableObject {
 
@@ -67,6 +68,7 @@ public class User extends IndexableObject {
                 .toHashCode();
     }
 
+
     @JsonIgnore
     @Override
     public String getType() {
@@ -77,5 +79,15 @@ public class User extends IndexableObject {
     @Override
     public String getId() {
         return uid;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("uid", uid)
+                .append("name", name)
+                .append("avatarUrl", avatarUrl)
+                .toString();
     }
 }
