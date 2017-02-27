@@ -55,4 +55,8 @@ export class SearchPage {
         console.log(user);
     }
 
+    chooseMovie(movie) {
+        console.log(movie);
+    }
+
 }

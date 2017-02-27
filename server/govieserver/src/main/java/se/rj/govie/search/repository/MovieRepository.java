@@ -8,4 +8,6 @@ import java.util.List;
 public interface MovieRepository {
 
     List<Movie> searchInCinemas(SearchMovieRequest request);
+
+    List<Movie> listInCinemas(int pages);
 }

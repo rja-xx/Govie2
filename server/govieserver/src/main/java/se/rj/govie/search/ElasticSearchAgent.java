@@ -45,4 +45,9 @@ public class ElasticSearchAgent {
     public SearchRequestBuilder prepareSearch(String... indices) {
         return client.prepareSearch(indices);
     }
+
+    public void clear(Index index) {
+        client.prepareDelete().setIndex(index.getIndex()).execute();
+        logger.info("Cleared index " + index.getIndex());
+    }
 }

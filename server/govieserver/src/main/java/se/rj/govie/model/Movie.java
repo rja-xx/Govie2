@@ -7,14 +7,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Movie extends GovieObject {
+public class Movie extends IndexableObject {
 
+
+    public static final String MOVIE = "movie";
 
     private final String id;
 
@@ -24,7 +23,7 @@ public class Movie extends GovieObject {
 
     private final String title;
 
-    private final LocalDate releaseDate;
+    private final Date releaseDate;
 
     @JsonCreator
     public Movie(@JsonProperty("id") String id,
@@ -32,11 +31,12 @@ public class Movie extends GovieObject {
                  @JsonProperty("backdrop_path") String backdropPath,
                  @JsonProperty("title") String title,
                  @JsonProperty("release_date") Date releaseDate) {
+        super(id);
         this.id = id;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
         this.title = title;
-        this.releaseDate = Instant.ofEpochMilli(releaseDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        this.releaseDate = releaseDate;
     }
 
     public String getId() {
@@ -55,7 +55,7 @@ public class Movie extends GovieObject {
         return title;
     }
 
-    public LocalDate getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
@@ -105,5 +105,10 @@ public class Movie extends GovieObject {
                 .append("title", title)
                 .append("releaseDate", releaseDate)
                 .toString();
+    }
+
+    @Override
+    public String getType() {
+        return MOVIE;
     }
 }

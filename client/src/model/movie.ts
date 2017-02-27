@@ -1,14 +1,16 @@
 export class Movie {
 
-    tmdbid:string;
+    id:string;
     posterPath:string;
     backdropPath:string;
-    name:string;
+    title:string;
+    releaseDate:Date;
 
-    constructor(tmdbid:string, posterPath:string, backdropPath:string, name:string) {
-        this.tmdbid = tmdbid;
+    constructor(id:string, posterPath:string, backdropPath:string, title:string, releaseDate:Date) {
+        this.id = id;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
-        this.name = name;
+        this.title = title;
+        this.releaseDate = releaseDate;
     }
 }

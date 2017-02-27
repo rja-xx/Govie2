@@ -14,4 +14,8 @@ public abstract class Index<T extends IndexableObject> {
     }
 
     public abstract String getIndex();
+
+    public void clear(){
+        elasticSearchAgent.clear(this);
+    }
 }

@@ -25,7 +25,7 @@ public class SearchMovieRequestListener extends ChildEventAdapter {
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         SearchMovieRequest request = SearchUserRequest.fromDataSnapshot(dataSnapshot, SearchMovieRequest.class);
         dataSnapshot.getRef().removeValue();
-        firebaseAgent.pushResponse(request.getUser(), RequestType.USER_SEARCH, movieRepository.searchInCinemas(request));
+        firebaseAgent.pushResponse(request.getUser(), RequestType.MOVIE_SEARCH, movieRepository.searchInCinemas(request));
         logger.info("Executed movie search for " + request.getTerm());
     }
 }

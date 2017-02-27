@@ -23,11 +23,11 @@
             </ion-item>
         </ion-list>
         <ion-list *ngSwitchCase="'movies'">
-            <ion-item *ngFor="let item of movies">
+            <ion-item *ngFor="let item of movies" (click)="chooseMovie(item)">
                 <ion-thumbnail item-left>
-                    <img src="{{item.avatarUrl}}">
+                    <img src="http://image.tmdb.org/t/p/w185/{{item.posterPath}}">
                 </ion-thumbnail>
-                <h2> movie {{ item.name }}</h2>
+                <h2> {{ item.title }}</h2>
             </ion-item>
         </ion-list>
     </div>
