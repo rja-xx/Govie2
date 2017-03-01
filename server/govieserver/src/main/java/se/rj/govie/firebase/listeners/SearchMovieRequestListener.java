@@ -8,7 +8,7 @@ import se.rj.govie.firebase.FirebaseAgent;
 import se.rj.govie.firebase.RequestType;
 import se.rj.govie.request.SearchMovieRequest;
 import se.rj.govie.request.SearchUserRequest;
-import se.rj.govie.search.repository.MovieRepository;
+import se.rj.govie.search.index.MovieIndex;
 
 @Component
 public class SearchMovieRequestListener extends ChildEventAdapter {
@@ -16,7 +16,7 @@ public class SearchMovieRequestListener extends ChildEventAdapter {
     private static Logger logger = Logger.getLogger(SearchMovieRequestListener.class);
 
     @Autowired
-    private MovieRepository movieRepository;
+    private MovieIndex movieIndex;
 
     @Autowired
     private FirebaseAgent firebaseAgent;
@@ -25,7 +25,7 @@ public class SearchMovieRequestListener extends ChildEventAdapter {
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         SearchMovieRequest request = SearchUserRequest.fromDataSnapshot(dataSnapshot, SearchMovieRequest.class);
         dataSnapshot.getRef().removeValue();
-        firebaseAgent.pushResponse(request.getUser(), RequestType.MOVIE_SEARCH, movieRepository.searchInCinemas(request));
+        firebaseAgent.pushResponse(request.getUser(), RequestType.MOVIE_SEARCH, movieIndex.searchByTitle(request));
         logger.info("Executed movie search for " + request.getTerm());
     }
 }

@@ -5,14 +5,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.rj.govie.model.Movie;
-import se.rj.govie.model.User;
 import se.rj.govie.request.SearchMovieRequest;
 import se.rj.govie.search.ElasticSearchAgent;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static se.rj.govie.model.User.USER_TYPE;
 
 @Component
 public class MovieIndex extends Index<Movie> {
@@ -24,11 +21,11 @@ public class MovieIndex extends Index<Movie> {
 
     public List<Movie> searchByTitle(SearchMovieRequest request) {
         List<Movie> res = new ArrayList<>();
-        elasticSearch.prepareSearch().setTypes(USER_TYPE)
+        elasticSearch.prepareSearch(getIndex()).setTypes(Movie.MOVIE_TYPE)
                      .setQuery(QueryBuilders.wildcardQuery("title", "*" + request.getTerm() + "*"))
                      .setSize(20)
                      .get()
-                     .getHits().forEach(hit -> res.add(User.fromJson(hit.getSourceAsString().getBytes(), Movie.class)));
+                     .getHits().forEach(hit -> res.add(Movie.fromJson(hit.getSourceAsString().getBytes(), Movie.class)));
         return res;
     }
 

@@ -13,7 +13,7 @@ import java.util.Date;
 public class Movie extends IndexableObject {
 
 
-    public static final String MOVIE = "movie";
+    public static final String MOVIE_TYPE = "movie";
 
     private final String id;
 
@@ -109,6 +109,6 @@ public class Movie extends IndexableObject {
 
     @Override
     public String getType() {
-        return MOVIE;
+        return MOVIE_TYPE;
     }
 }

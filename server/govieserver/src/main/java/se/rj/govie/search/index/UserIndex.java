@@ -23,7 +23,7 @@ public class UserIndex extends Index<User> {
 
     public List<User> searchByName(SearchUserRequest request) {
         List<User> res = new ArrayList<>();
-        elasticSearch.prepareSearch().setTypes(USER_TYPE)
+        elasticSearch.prepareSearch(getIndex()).setTypes(USER_TYPE)
                      .setQuery(QueryBuilders.wildcardQuery("name", "*" + request.getTerm() + "*"))
                      .setSize(20)
                      .get()

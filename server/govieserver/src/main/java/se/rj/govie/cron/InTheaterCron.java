@@ -10,10 +10,18 @@ import se.rj.govie.search.repository.MovieRepository;
 
 import java.util.List;
 
+import static java.util.stream.IntStream.rangeClosed;
+
 @Component
 public class InTheaterCron {
 
-    public static final int MAX_PAGES = 2;
+    private static final int MAX_PAGES = 2;
+
+    private static final int DAY_IN_MILLIS = 1000 * 360 * 24;
+
+    private static final int WEEK_IN_MILLIS = 1000 * 360 * 24 * 7;
+
+    private static final int SECOND_IN_MILLIS = 1000;
 
     private static Logger logger = Logger.getLogger(InTheaterCron.class);
 
@@ -23,14 +31,26 @@ public class InTheaterCron {
     @Autowired
     private MovieRepository movieRepository;
 
-    @Scheduled(initialDelay = 1000, fixedRate = 1000 * 360 * 24)
+    @Scheduled(initialDelay = SECOND_IN_MILLIS, fixedRate = DAY_IN_MILLIS)
     void addInTheatersToIndex() {
-        List<Movie> inCinemas = movieRepository.listInCinemas(MAX_PAGES);
-        inCinemas.stream().forEach(movieIndex::add);
-        logger.info("Added movies to index");
+        rangeClosed(1, MAX_PAGES).forEach(page -> {
+            List<Movie> inCinemas = movieRepository.listInCinemas(page);
+            inCinemas.forEach(movieIndex::add);
+            logger.info("Added movies " + inCinemas.size() + "to index");
+            sleep(1000);
+        });
     }
 
-    @Scheduled(initialDelay = 1000 * 360 * 24*7, fixedRate = 1000 * 360 * 24*7)
+    private void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            logger.error("Sleeping between fetching movies in theaters failed", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Scheduled(initialDelay = WEEK_IN_MILLIS, fixedRate = WEEK_IN_MILLIS)
     void clearInTheatersIndex() {
         movieIndex.clear();
         logger.info("Added movies to index");

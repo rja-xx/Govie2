@@ -18,10 +18,9 @@ import static se.rj.govie.search.repository.TMDBRequestType.now_playing;
 @Component
 public class TMDBMovieRepository implements MovieRepository {
 
-    public static final Locale REGION = Locale.forLanguageTag("SE");
+    private static final Locale REGION = Locale.forLanguageTag("SE");
 
     private static Logger logger = Logger.getLogger(TMDBMovieRepository.class);
-
 
     @Override
     public List<Movie> searchInCinemas(SearchMovieRequest request) {
@@ -34,15 +33,13 @@ public class TMDBMovieRepository implements MovieRepository {
     }
 
     @Override
-    public List<Movie> listInCinemas(int pages) {
+    public List<Movie> listInCinemas(int page) {
         logger.info("Listing movies in theaters");
         List<Movie> result = new ArrayList<>();
-        for (int i = 1; i <= pages; i++) {
-            String url = new TMDBRequestBuilder(now_playing).withRegion(REGION).withPage(i).build();
-            String res = getTMDBResult(url);
-            TMDBSearchResponse r = TMDBSearchResponse.fromJson(res, TMDBSearchResponse.class);
-            result.addAll(r.getResults());
-        }
+        String url = new TMDBRequestBuilder(now_playing).withRegion(REGION).withPage(page).build();
+        String res = getTMDBResult(url);
+        TMDBSearchResponse r = TMDBSearchResponse.fromJson(res, TMDBSearchResponse.class);
+        result.addAll(r.getResults());
         return result;
     }
 
