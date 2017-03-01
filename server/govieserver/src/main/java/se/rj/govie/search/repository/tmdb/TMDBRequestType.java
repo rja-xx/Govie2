@@ -1,4 +1,4 @@
-package se.rj.govie.search.repository;
+package se.rj.govie.search.repository.tmdb;
 
 public enum TMDBRequestType {
     upcoming,

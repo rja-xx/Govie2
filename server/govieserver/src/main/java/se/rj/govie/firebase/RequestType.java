@@ -1,7 +1,7 @@
 package se.rj.govie.firebase;
 
 public enum RequestType {
-    USER_SEARCH("search/user"), MOVIE_SEARCH("search/movie");
+    USER_SEARCH("search/user"), MOVIE_SEARCH("search/movie"), CINEMA_SEARCH("search/cinema");
 
     private final String responseQueue;
 

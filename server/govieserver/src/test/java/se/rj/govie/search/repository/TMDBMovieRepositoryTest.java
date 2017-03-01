@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.rj.govie.model.Movie;
 import se.rj.govie.request.SearchMovieRequest;
+import se.rj.govie.search.repository.tmdb.TMDBMovieRepository;
 
 import java.util.List;
 

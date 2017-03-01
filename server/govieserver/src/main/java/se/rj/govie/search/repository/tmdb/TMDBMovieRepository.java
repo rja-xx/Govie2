@@ -1,4 +1,4 @@
-package se.rj.govie.search.repository;
+package se.rj.govie.search.repository.tmdb;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -8,12 +8,11 @@ import org.springframework.stereotype.Component;
 import se.rj.govie.model.Movie;
 import se.rj.govie.model.tmdbresponse.TMDBSearchResponse;
 import se.rj.govie.request.SearchMovieRequest;
+import se.rj.govie.search.repository.MovieRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import static se.rj.govie.search.repository.TMDBRequestType.now_playing;
 
 @Component
 public class TMDBMovieRepository implements MovieRepository {
@@ -25,7 +24,7 @@ public class TMDBMovieRepository implements MovieRepository {
     @Override
     public List<Movie> searchInCinemas(SearchMovieRequest request) {
         logger.info("searching for movies");
-        String url = new TMDBRequestBuilder(now_playing).withRegion(REGION).build();
+        String url = new TMDBRequestBuilder(TMDBRequestType.now_playing).withRegion(REGION).build();
         String res = getTMDBResult(url);
         TMDBSearchResponse result = TMDBSearchResponse.fromJson(res, TMDBSearchResponse.class);
         logger.info(res);
@@ -36,7 +35,7 @@ public class TMDBMovieRepository implements MovieRepository {
     public List<Movie> listInCinemas(int page) {
         logger.info("Listing movies in theaters");
         List<Movie> result = new ArrayList<>();
-        String url = new TMDBRequestBuilder(now_playing).withRegion(REGION).withPage(page).build();
+        String url = new TMDBRequestBuilder(TMDBRequestType.now_playing).withRegion(REGION).withPage(page).build();
         String res = getTMDBResult(url);
         TMDBSearchResponse r = TMDBSearchResponse.fromJson(res, TMDBSearchResponse.class);
         result.addAll(r.getResults());
