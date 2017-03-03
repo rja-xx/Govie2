@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.rj.govie.firebase.FirebaseAgent;
 import se.rj.govie.firebase.RequestType;
 import se.rj.govie.firebase.listeners.ChildEventAdapter;
-import se.rj.govie.model.FirebaseObject;
+import se.rj.govie.model.GovieObject;
 import se.rj.govie.request.SearchRequest;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class SearchRequestListener<T extends SearchRequest, R extends FirebaseObject> extends ChildEventAdapter {
+public abstract class SearchRequestListener<T extends SearchRequest, R extends GovieObject> extends ChildEventAdapter {
 
     private static Logger logger = Logger.getLogger(SearchRequestListener.class);
 

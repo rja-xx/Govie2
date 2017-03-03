@@ -1,35 +1,29 @@
-package se.rj.govie.model;
+package se.rj.govie.search.repository.google;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import se.rj.govie.request.SearchRequest;
+import se.rj.govie.model.Cinema;
+import se.rj.govie.model.GovieObject;
 
-public class SearchCinemaRequest extends SearchRequest {
+import java.util.List;
 
-    private final Double lon;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CinemasNearByResponse extends GovieObject {
 
-    private final Double lat;
+    private final List<Cinema> results;
 
-    public SearchCinemaRequest(@JsonProperty("term") String term,
-                               @JsonProperty("user") String user,
-                               @JsonProperty("lon") Double lon,
-                               @JsonProperty("lat") Double lat
-    ) {
-        super(term, user);
-        this.lon = lon;
-        this.lat = lat;
+    @JsonCreator
+    public CinemasNearByResponse(@JsonProperty("results") List<Cinema> results) {
+        this.results = results;
     }
 
-    public Double getLon() {
-        return lon;
+    public List<Cinema> getResults() {
+        return results;
     }
-
-    public Double getLat() {
-        return lat;
-    }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -42,11 +36,10 @@ public class SearchCinemaRequest extends SearchRequest {
         if (obj.getClass() != getClass()) {
             return false;
         }
-        SearchCinemaRequest rhs = (SearchCinemaRequest) obj;
+        CinemasNearByResponse rhs = (CinemasNearByResponse) obj;
         return new EqualsBuilder()
                 .appendSuper(super.equals(obj))
-                .append(this.lon, rhs.lon)
-                .append(this.lat, rhs.lat)
+                .append(this.results, rhs.results)
                 .isEquals();
     }
 
@@ -54,8 +47,7 @@ public class SearchCinemaRequest extends SearchRequest {
     public int hashCode() {
         return new HashCodeBuilder()
                 .appendSuper(super.hashCode())
-                .append(lon)
-                .append(lat)
+                .append(results)
                 .toHashCode();
     }
 
@@ -63,8 +55,7 @@ public class SearchCinemaRequest extends SearchRequest {
     public String toString() {
         return new ToStringBuilder(this)
                 .appendSuper(super.toString())
-                .append("lon", lon)
-                .append("lat", lat)
+                .append("results", results)
                 .toString();
     }
 }

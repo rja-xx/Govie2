@@ -6,5 +6,6 @@ import se.rj.govie.model.SearchCinemaRequest;
 import java.util.List;
 
 public interface CinemaRepository {
+
     List<Cinema> findNearBy(SearchCinemaRequest searchRequest);
 }
