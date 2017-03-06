@@ -2,10 +2,10 @@
     <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     <ion-toolbar>
         <ion-segment [(ngModel)]="searchType">
-            <ion-segment-button value="movies">
+            <ion-segment-button value="movies" (click)="getItems()">
                 At cinemas
             </ion-segment-button>
-            <ion-segment-button value="users">
+            <ion-segment-button value="users" (click)="getItems()">
                 Users
             </ion-segment-button>
         </ion-segment>
@@ -28,6 +28,7 @@
                     <img src="http://image.tmdb.org/t/p/w185/{{item.posterPath}}">
                 </ion-thumbnail>
                 <h2> {{ item.title }}</h2>
+                <!--<h3> {{item.releaseDate | amTimeAgo}} </h3>-->
             </ion-item>
         </ion-list>
     </div>

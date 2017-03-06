@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 import {Events} from "ionic-angular/index";
 import {User} from "../../model/user";
 import {MovieService} from "../../providers/movie/MovieService";
+import {Movie} from "../../model/movie";
+//import {MomentModule} from 'angular2-moment/moment.module';
 
 @Component({
     selector: 'page-search',
@@ -29,34 +31,40 @@ export class SearchPage {
         });
         events.subscribe('movie:search:result', (result) => {
             console.log(result);
-            this.movies = result;
+            this.movies = result.map(function (val) {
+                return new Movie(val.id, val.posterPath, val.backdropPath, val.title, val.releaseDate);
+            });
             cd.detectChanges();
         });
+        this.getItems(null);
     }
 
     searchQuery:string;
-    movies:string[];
+    movies:Movie[];
     users:string[];
     searchType:string;
 
     getItems(ev:any) {
-        let val = ev.target.value;
-        if (val && val.trim() != '') {
-            console.log('searching for ' + val.toLowerCase());
-            if (this.searchType == 'movies') {
-                this.movieService.searchMovies(val, this.events, this.userService.currentUser());
-            } else {
+        let val = ev ? ev.target.value : this.searchQuery;
+        this.searchQuery = val;
+        console.log('searching for ' + val.toLowerCase());
+        if (this.searchType == 'movies') {
+            this.movieService.searchMovies(val, this.events, this.userService.currentUser());
+        } else {
+            if (val && val.trim() != '') {
                 this.userService.searchUser(val.toLowerCase(), this.events);
+            } else {
+                this.users = [];
             }
         }
     }
 
     chooseUser(user) {
-        console.log(user);
+        console.log(user);//todo
     }
 
     chooseMovie(movie) {
-        console.log(movie);
+        console.log(movie);//todo
     }
 
 }
