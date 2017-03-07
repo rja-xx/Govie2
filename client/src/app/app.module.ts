@@ -8,33 +8,36 @@ import { GoviePage } from '../pages/govie/govie';
 import { WallPage } from '../pages/wall/wall';
 import { LoginPage } from '../pages/login/login';
 import { EventsPage } from '../pages/events/events';
+import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 
 @NgModule({
-  declarations: [
-    MyApp,
-    SearchPage,
-    GoviePage,
-    ProfilePage,
-    WallPage,
-    EventsPage,
-    TabsPage,
-    LoginPage
-  ],
-  imports: [
-    IonicModule.forRoot(MyApp)
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    SearchPage,
-    GoviePage,
-    WallPage,
-    ProfilePage,
-    EventsPage,
-    TabsPage,
-    LoginPage
-  ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+    declarations: [
+        MyApp,
+        SearchPage,
+        GoviePage,
+        ProfilePage,
+        WallPage,
+        EventsPage,
+        TabsPage,
+        LoginPage,
+        EditProfilePage
+    ],
+    imports: [
+        IonicModule.forRoot(MyApp)
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+        SearchPage,
+        GoviePage,
+        WallPage,
+        ProfilePage,
+        EventsPage,
+        TabsPage,
+        LoginPage,
+        EditProfilePage
+    ],
+    providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {
 }
