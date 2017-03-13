@@ -10,6 +10,7 @@ import se.rj.govie.firebase.listeners.UserEventListener;
 import se.rj.govie.firebase.listeners.search.SearchCinemaRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchMovieRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchUserRequestListener;
+import se.rj.govie.model.Profile;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -63,5 +64,10 @@ public class FirebaseAgent {
     public void pushResponse(String recipient, RequestType requestType, Object result) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("govie/response/" + requestType.getResponseQueue() + "/" + recipient).setValue(result);
+    }
+
+    public void pushProfile(Profile profile) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("govie/profile/" + profile.getUid()).setValue(profile);
     }
 }

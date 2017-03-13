@@ -1,3 +1,21 @@
 page-profile {
-
+  ion-col {
+    background-color: #F9FAFB;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    text-align: center;
+  }
 }
+
+$grid-columns: 12 !default;
+
+$grid-padding-width: 10px !default;
+
+$grid-padding-widths: (
+        xs: $grid-padding-width,
+        sm: $grid-padding-width,
+        md: $grid-padding-width,
+        lg: $grid-padding-width,
+        xl: $grid-padding-width
+) !default;

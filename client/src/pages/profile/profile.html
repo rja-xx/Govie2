@@ -13,8 +13,32 @@
 </ion-header>
 
 
-<ion-content padding>
-    <h1>Your profile</h1>
+<ion-content class="page-profile">
+    <ion-grid>
+        <ion-row>
+            <ion-col col-4>
+                1 of 4
+            </ion-col>
+            <ion-col col-2>
+                2 of 4
+            </ion-col>
+            <ion-col col-2>
+                3 of 4
+            </ion-col>
+            <ion-col col-4>
+                4 of 4
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
-    <button ion-button (click)="promptEdit()">Edit profile</button>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-9 push-3>
+                1 of 2
+            </ion-col>
+            <ion-col col-3 pull-9>
+                2 of 2
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
