@@ -12,7 +12,6 @@ export class UserService {
     }
 
     login(events) {
-        debugger;
         if (this.currentUser() === null) {
             return firebase.auth().signInWithPopup(this.twitterProvider).then(function (authData) {
                 var user = new User(authData.user.uid, authData.user.photoURL, authData.user.displayName);
@@ -54,5 +53,18 @@ export class UserService {
             firebase.database().ref("govie/request/search/user").push({user: uid, term: val});
         }
     }
+
+    getProfile() {
+        var uid = this.currentUser().uid;
+        return new Promise(resolve => {
+            firebase.database().ref("govie/profile/" + uid).on('value', function fn(snapshot) {
+                if (snapshot.val() !== null) {
+                    snapshot.ref.off('value');
+                    resolve(snapshot.val());
+                }
+            });
+        });
+    }
+
 }
 

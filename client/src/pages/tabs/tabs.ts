@@ -12,11 +12,11 @@ import { EventsPage } from '../events/events';
 export class TabsPage {
     // this tells the tabs component which Pages
     // should be each tab's root Page
-    tab1Root:any = ProfilePage;
+    tab1Root:any = WallPage;
     tab2Root:any = SearchPage;
     tab3Root:any = GoviePage;
     tab4Root:any = EventsPage;
-    tab5Root:any = WallPage;
+    tab5Root:any = ProfilePage;
 
     constructor() {
 

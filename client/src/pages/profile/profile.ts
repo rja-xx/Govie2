@@ -4,6 +4,7 @@ import { Events } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import {EditProfilePage} from "../edit-profile/edit-profile";
 import {UserService} from "../../providers/session/UserService";
+import {Profile} from "../../model/profile";
 
 @Component({
     selector: 'page-profile',
@@ -12,7 +13,13 @@ import {UserService} from "../../providers/session/UserService";
 })
 export class ProfilePage {
 
+    private profile:Profile;
+
     constructor(public navCtrl:NavController, public navParams:NavParams, public userService:UserService, public modalCtrl:ModalController) {
+        debugger;
+        this.userService.getProfile().then(res => {
+            this.profile = new Profile(res);
+        });
     }
 
     ionViewDidLoad() {

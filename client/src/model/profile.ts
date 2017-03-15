@@ -4,23 +4,21 @@ export class Profile {
     private _avatarUrl:string;
     private _backdropUrl:string;
     private _name:string;
-    private _handle:string;
     private _followers:number;
     private _follows:number;
     private _rates:number;
     private _cinemas:number;
 
 
-    constructor(uid:string, avatarUrl:string, backdropUrl:string, name:string, handle:string, followers:number, follows:number, rates:number, cinemas:number) {
-        this._uid = uid;
-        this._avatarUrl = avatarUrl;
-        this._backdropUrl = backdropUrl;
-        this._name = name;
-        this._handle = handle;
-        this._followers = followers;
-        this._follows = follows;
-        this._rates = rates;
-        this._cinemas = cinemas;
+    constructor(obj) {
+        this._uid = obj.uid;
+        this._avatarUrl = obj.avatarUrl;
+        this._backdropUrl = obj.backdropUrl;
+        this._name = obj.name;
+        this._followers = obj.followers;
+        this._follows = obj.follows;
+        this._rates = obj.rates;
+        this._cinemas = obj.cinemas;
     }
 
 
@@ -54,14 +52,6 @@ export class Profile {
 
     set name(value:string) {
         this._name = value;
-    }
-
-    get handle():string {
-        return this._handle;
-    }
-
-    set handle(value:string) {
-        this._handle = value;
     }
 
     get followers():number {

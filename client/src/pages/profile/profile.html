@@ -37,7 +37,8 @@
                 1 of 2
             </ion-col>
             <ion-col col-3 pull-9>
-                2 of 2
+                <button (click)="promptEdit()">Edit</button>
+                {{profile.name}}
             </ion-col>
         </ion-row>
     </ion-grid>
