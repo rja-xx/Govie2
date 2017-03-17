@@ -21,7 +21,6 @@ export class ProfilePage {
                 public modalCtrl:ModalController,
                 cd:ChangeDetectorRef) {
         this.userService.getProfile().then(res => {
-            debugger;
             this.profile = new Profile(res);
             cd.detectChanges();
         });

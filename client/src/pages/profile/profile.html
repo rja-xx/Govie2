@@ -14,32 +14,17 @@
 
 
 <ion-content class="page-profile">
-    <ion-grid>
-        <ion-row>
-            <ion-col col-4>
-                1 of 4
-            </ion-col>
-            <ion-col col-2>
-                2 of 4
-            </ion-col>
-            <ion-col col-2>
-                3 of 4
-            </ion-col>
-            <ion-col col-4>
-                4 of 4
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-    <ion-grid>
-        <ion-row>
-            <ion-col col-9 push-3>
-                1 of 2
-            </ion-col>
-            <ion-col col-3 pull-9>
-                <button (click)="promptEdit()">Edit</button>
-                {{profile.name}}
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <ion-item>
+        <ion-icon name="cog" item-right (click)="promptEdit()"></ion-icon>
+        <ion-avatar item-left>
+            <img src="{{profile.avatarUrl}}">
+        </ion-avatar>
+        <h2>{{profile.name}}</h2>
+        <ul>
+            <li>{{profile.cinemas}} cinemas</li>
+            <li>{{profile.rates}} rates</li>
+            <li>{{profile.follows}} follows</li>
+            <li>{{profile.followers}} followers</li>
+        </ul>
+    </ion-item>
 </ion-content>
