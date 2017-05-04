@@ -5,6 +5,8 @@ import {Events} from "ionic-angular/index";
 import {User} from "../../model/user";
 import {MovieService} from "../../providers/movie/MovieService";
 import {Movie} from "../../model/movie";
+import {ProfilePage} from "../profile/profile";
+import {ModalController} from "ionic-angular/index";
 //import {MomentModule} from 'angular2-moment/moment.module';
 
 @Component({
@@ -18,6 +20,7 @@ export class SearchPage {
     constructor(public navCtrl:NavController,
                 cd:ChangeDetectorRef,
                 public events:Events,
+                public modalCtrl:ModalController,
                 public userService:UserService,
                 public movieService:MovieService) {
         this.users = [];
@@ -61,6 +64,9 @@ export class SearchPage {
 
     chooseUser(user) {
         console.log(user);//todo
+        let modal = this.modalCtrl.create(ProfilePage);
+        modal.present();
+
     }
 
     chooseMovie(movie) {

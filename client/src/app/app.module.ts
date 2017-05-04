@@ -8,7 +8,7 @@ import { GoviePage } from '../pages/govie/govie';
 import { WallPage } from '../pages/wall/wall';
 import { LoginPage } from '../pages/login/login';
 import { EventsPage } from '../pages/events/events';
-import {EditProfilePage} from "../pages/edit-profile/edit-profile";
+import { EditProfilePage } from "../pages/edit-profile/edit-profile";
 
 @NgModule({
     declarations: [
