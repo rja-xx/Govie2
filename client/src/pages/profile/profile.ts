@@ -5,6 +5,7 @@ import { ModalController } from 'ionic-angular';
 import {EditProfilePage} from "../edit-profile/edit-profile";
 import {UserService} from "../../providers/session/UserService";
 import {Profile} from "../../model/profile";
+import {Movie} from "../../model/movie";
 
 @Component({
     selector: 'page-profile',
@@ -18,9 +19,11 @@ export class ProfilePage {
     constructor(public navCtrl:NavController,
                 public navParams:NavParams,
                 public userService:UserService,
+                public events:Events,
                 public modalCtrl:ModalController,
                 cd:ChangeDetectorRef) {
         this.userService.getProfile().then(res => {
+            debugger;
             this.profile = new Profile(res);
             cd.detectChanges();
         });

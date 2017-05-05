@@ -7,6 +7,7 @@ import {MovieService} from "../../providers/movie/MovieService";
 import {Movie} from "../../model/movie";
 import {ProfilePage} from "../profile/profile";
 import {ModalController} from "ionic-angular/index";
+import {ViewProfile} from "../view-profile/view-profile";
 //import {MomentModule} from 'angular2-moment/moment.module';
 
 @Component({
@@ -23,6 +24,7 @@ export class SearchPage {
                 public modalCtrl:ModalController,
                 public userService:UserService,
                 public movieService:MovieService) {
+        this.events = events;
         this.users = [];
         this.movies = [];
         this.searchQuery = '';
@@ -64,9 +66,9 @@ export class SearchPage {
 
     chooseUser(user) {
         console.log(user);//todo
-        let modal = this.modalCtrl.create(ProfilePage);
+        let modal = this.modalCtrl.create(ViewProfile);
+        this.events.publish('user:profile:view', user);
         modal.present();
-
     }
 
     chooseMovie(movie) {

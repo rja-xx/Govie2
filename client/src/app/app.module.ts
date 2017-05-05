@@ -10,6 +10,7 @@ import { WallPage } from '../pages/wall/wall';
 import { LoginPage } from '../pages/login/login';
 import { EventsPage } from '../pages/events/events';
 import { EditProfilePage } from "../pages/edit-profile/edit-profile";
+import {ViewProfile} from "../pages/view-profile/view-profile";
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { EditProfilePage } from "../pages/edit-profile/edit-profile";
         EventsPage,
         TabsPage,
         LoginPage,
+        ViewProfile,
         EditProfilePage
     ],
     imports: [
@@ -37,6 +39,7 @@ import { EditProfilePage } from "../pages/edit-profile/edit-profile";
         EventsPage,
         TabsPage,
         LoginPage,
+        ViewProfile,
         EditProfilePage
     ],
     providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
