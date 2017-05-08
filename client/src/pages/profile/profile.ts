@@ -14,7 +14,7 @@ import {Movie} from "../../model/movie";
 })
 export class ProfilePage {
 
-    private profile:Profile = new Profile({});
+    uid:string;
 
     constructor(public navCtrl:NavController,
                 public navParams:NavParams,
@@ -22,22 +22,11 @@ export class ProfilePage {
                 public events:Events,
                 public modalCtrl:ModalController,
                 cd:ChangeDetectorRef) {
-        this.userService.getProfile().then(res => {
-            debugger;
-            this.profile = new Profile(res);
-            cd.detectChanges();
-        });
+        this.uid = this.userService.currentUser().uid;
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ProfilePage');
     }
-
-    promptEdit() {
-        if (this.userService.currentUser() !== null) {
-            let modal = this.modalCtrl.create(EditProfilePage);
-            modal.present();
-        }
-    };
 
 }

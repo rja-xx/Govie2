@@ -1,0 +1,16 @@
+<!-- Generated template for the ProfileView component -->
+<div>
+    <ion-item>
+        <ion-icon *ngIf="ownProfile" name="cog" item-right (click)="promptEdit()"></ion-icon>
+        <ion-avatar item-left>
+            <img src="{{profile.avatarUrl}}">
+        </ion-avatar>
+        <h2>{{profile.name}}</h2>
+        <ul>
+            <li>{{profile.cinemas}} cinemas</li>
+            <li>{{profile.rates}} rates</li>
+            <li>{{profile.follows}} follows</li>
+            <li>{{profile.followers}} followers</li>
+        </ul>
+    </ion-item>
+</div>

@@ -11,6 +11,8 @@ import { LoginPage } from '../pages/login/login';
 import { EventsPage } from '../pages/events/events';
 import { EditProfilePage } from "../pages/edit-profile/edit-profile";
 import {ViewProfile} from "../pages/view-profile/view-profile";
+import {ProfileView} from "../components/profile-view/profile-view";
+import {RatingList} from "../components/rating-list/rating-list";
 
 @NgModule({
     declarations: [
@@ -23,7 +25,9 @@ import {ViewProfile} from "../pages/view-profile/view-profile";
         TabsPage,
         LoginPage,
         ViewProfile,
-        EditProfilePage
+        EditProfilePage,
+        ProfileView,
+        RatingList,
     ],
     imports: [
         IonicModule.forRoot(MyApp),

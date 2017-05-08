@@ -8,6 +8,7 @@ import {Movie} from "../../model/movie";
 import {ProfilePage} from "../profile/profile";
 import {ModalController} from "ionic-angular/index";
 import {ViewProfile} from "../view-profile/view-profile";
+import {Profile} from "../../model/profile";
 //import {MomentModule} from 'angular2-moment/moment.module';
 
 @Component({
@@ -66,8 +67,7 @@ export class SearchPage {
 
     chooseUser(user) {
         console.log(user);//todo
-        let modal = this.modalCtrl.create(ViewProfile);
-        this.events.publish('user:profile:view', user);
+        let modal = this.modalCtrl.create(ViewProfile, {uid: user.uid});
         modal.present();
     }
 

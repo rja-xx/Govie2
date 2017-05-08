@@ -56,6 +56,10 @@ export class UserService {
 
     getProfile() {
         var uid = this.currentUser().uid;
+        return this.getProfileByUID(uid);
+    }
+
+    getProfileByUID(uid) {
         return new Promise(resolve => {
             firebase.database().ref("govie/profile/" + uid).on('value', function fn(snapshot) {
                 if (snapshot.val() !== null) {
@@ -64,7 +68,7 @@ export class UserService {
                 }
             });
         });
-    }
+    };
 
 }
 
