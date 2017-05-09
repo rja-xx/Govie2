@@ -11,6 +11,7 @@ import com.google.firebase.database.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.rj.govie.firebase.listeners.FollowRequestListener;
+import se.rj.govie.firebase.listeners.UnfollowRequestListener;
 import se.rj.govie.firebase.listeners.UserEventListener;
 import se.rj.govie.firebase.listeners.search.SearchCinemaRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchMovieRequestListener;
@@ -19,8 +20,7 @@ import se.rj.govie.model.Profile;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import static com.google.firebase.database.Transaction.success;
 
@@ -45,6 +45,24 @@ public class FirebaseAgent {
         }
     };
 
+    private static final Transaction.Handler DECREMENT_VALUE_BY_ONE = new Transaction.Handler() {
+
+        @Override
+        public Transaction.Result doTransaction(MutableData mutableData) {
+            if (mutableData.getValue() == null) {
+                mutableData.setValue(0);
+            } else {
+                mutableData.setValue(mutableData.getValue(Integer.class) - 1);
+            }
+            return success(mutableData);
+        }
+
+        @Override
+        public void onComplete(DatabaseError databaseError, boolean commited, DataSnapshot dataSnapshot) {
+            System.out.println("saved follow");
+        }
+    };
+
     @Autowired
     private UserEventListener userEventListener;
 
@@ -59,6 +77,9 @@ public class FirebaseAgent {
 
     @Autowired
     private FollowRequestListener followRequestListener;
+
+    @Autowired
+    private UnfollowRequestListener unfollowRequestListener;
 
     public void connect() {
         try {
@@ -86,6 +107,7 @@ public class FirebaseAgent {
         firebaseDatabase.getReference("govie/request/search/movie").addChildEventListener(searchMovieRequestListener);
         firebaseDatabase.getReference("govie/request/search/cinema").addChildEventListener(searchCinemaRequestListener);
         firebaseDatabase.getReference("govie/request/follow").addChildEventListener(followRequestListener);
+        firebaseDatabase.getReference("govie/request/unfollow").addChildEventListener(unfollowRequestListener);
     }
 
     public void disconnect() {
@@ -106,8 +128,15 @@ public class FirebaseAgent {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("govie/profile/" + uid + "/follows").runTransaction(INCREMENT_VALUE_BY_ONE);
         firebaseDatabase.getReference("govie/profile/" + follow + "/followers").runTransaction(INCREMENT_VALUE_BY_ONE);
-        List<String> follows = new ArrayList<>();
-        follows.add(follow);
-        firebaseDatabase.getReference("govie/followers/" + uid).setValue(follows);
+        HashMap<String, String> value = new HashMap<>();
+        value.put("follows", "true");
+        firebaseDatabase.getReference("govie/followers").child(uid).child(follow).setValue(value);
+    }
+
+    public void pushUnFollow(String uid, String follow) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("govie/profile/" + uid + "/follows").runTransaction(DECREMENT_VALUE_BY_ONE);
+        firebaseDatabase.getReference("govie/profile/" + follow + "/followers").runTransaction(DECREMENT_VALUE_BY_ONE);
+        firebaseDatabase.getReference("govie/followers").child(uid).child(follow).removeValue();
     }
 }

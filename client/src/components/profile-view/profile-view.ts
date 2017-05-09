@@ -25,6 +25,8 @@ export class ProfileView {
 
     profile:Profile;
     ownProfile:boolean;
+    mayFollow:boolean;
+    mayUnFollow:boolean;
 
     constructor(public navCtrl:NavController,
                 public navParams:NavParams,
@@ -35,6 +37,8 @@ export class ProfileView {
         console.log('Hello ProfileView Component');
         this.profile = new Profile({});
         this.ownProfile = false;
+        this.mayFollow = false;
+        this.mayUnFollow = false;
     }
 
     ngAfterViewInit() {
@@ -54,7 +58,10 @@ export class ProfileView {
                 return;
             }
             this.cd.detectChanges();
-        })
+        });
+        var res = this.userService.getIsFollowing(this.uid);
+        this.mayFollow = !this.ownProfile && res;
+        this.mayUnFollow = !this.ownProfile && !res;
     }
 
 
@@ -68,6 +75,11 @@ export class ProfileView {
     follow() {
         console.log(this.userService.currentUser().uid + " follow " + this.profile.uid)
         this.userService.follow(this.profile.uid);
+    }
+
+    unfollow() {
+        console.log(this.userService.currentUser().uid + " unfollow " + this.profile.uid)
+        this.userService.unfollow(this.profile.uid);
     }
 }
 

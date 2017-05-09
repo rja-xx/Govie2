@@ -86,6 +86,10 @@ export class UserService {
         firebase.database().ref("govie/request/follow").push({user: this.currentUser().uid, follow: uid});
     }
 
+    unfollow(uid) {
+        firebase.database().ref("govie/request/unfollow").push({user: this.currentUser().uid, follow: uid});
+    }
+
     getNextProfileChange(uid, callback) {
         firebase.database().ref("govie/profile/" + uid).on('child_changed', function fn(snapshot) {
             if (snapshot.val() !== null) {
@@ -94,5 +98,15 @@ export class UserService {
         });
     }
 
+    getIsFollowing(uid) {
+        debugger;
+        //var value = firebase.database().ref("govie/followers/" + this.currentUser().uid + "/" + uid);
+        //firebase.database().ref("govie/followers/" + this.currentUser().uid + "/" + uid).on('child_changed', function fn(snapshot) {
+        //    if (snapshot.val() !== null) {
+        //        callback(snapshot.key, snapshot.val());
+        //    }
+        //});
+        return false;
+    }
 }
 

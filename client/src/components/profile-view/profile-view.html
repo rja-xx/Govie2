@@ -12,6 +12,7 @@
             <li>{{profile.follows}} follows</li>
             <li>{{profile.followers}} followers</li>
         </ul>
-        <button *ngIf="!ownProfile" (click)="follow()">follow</button>
+        <button *ngIf="!mayFollow" (click)="follow()">follow</button>
+        <button *ngIf="!mayUnFollow" (click)="unfollow()">unfollow</button>
     </ion-item>
 </div>
