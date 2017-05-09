@@ -38,14 +38,25 @@ export class ProfileView {
     }
 
     ngAfterViewInit() {
-
         console.log(this.uid);
         this.ownProfile = this.uid === this.userService.currentUser().uid;
         this.userService.getProfileByUID(this.uid).then(res => {
             this.profile = new Profile(res);
             this.cd.detectChanges();
         });
+        this.userService.getNextProfileChange(this.uid, (key, value) => {
+            console.log('detected profile change');
+            if (key === 'followers') {
+                this.profile.followers = value;
+            } else if (key === 'follows') {
+                this.profile.follows = value;
+            } else {
+                return;
+            }
+            this.cd.detectChanges();
+        })
     }
+
 
     promptEdit() {
         if (this.userService.currentUser() !== null) {
@@ -54,5 +65,9 @@ export class ProfileView {
         }
     };
 
+    follow() {
+        console.log(this.userService.currentUser().uid + " follow " + this.profile.uid)
+        this.userService.follow(this.profile.uid);
+    }
 }
 

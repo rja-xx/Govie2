@@ -8,13 +8,13 @@
 
     <ion-navbar>
         <ion-title>viewProfile</ion-title>
+        <button class="ion-md-close-circle ion-ios-return-right" (click)="close()">ok</button>
     </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <button (click)="close()">ok</button>
     <profile-view uid="{{uid}}"></profile-view>
     <br/>
     <rating-list></rating-list>

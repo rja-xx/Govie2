@@ -81,7 +81,18 @@ export class UserService {
             });
         });
     }
-    ;
+
+    follow(uid) {
+        firebase.database().ref("govie/request/follow").push({user: this.currentUser().uid, follow: uid});
+    }
+
+    getNextProfileChange(uid, callback) {
+        firebase.database().ref("govie/profile/" + uid).on('child_changed', function fn(snapshot) {
+            if (snapshot.val() !== null) {
+                callback(snapshot.key, snapshot.val());
+            }
+        });
+    }
 
 }
 
