@@ -13,15 +13,27 @@ export class UserService {
 
     login(events) {
         if (this.currentUser() === null) {
-            return firebase.auth().signInWithPopup(this.twitterProvider).then(function (authData) {
-                var user = new User(authData.user.uid, authData.user.photoURL, authData.user.displayName);
-                events.publish("user:login", user);
-                firebase.database().ref("govie/users").push(user);
+            return firebase.auth().signInWithPopup(this.twitterProvider).then(authData=> {
+                this.persistUserDetails(authData, events);
             }).catch(function (error) {
                 console.log(error);
                 events.publish("error:login");
             });
         }
+    }
+
+    private persistUserDetails(authData, events) {
+        var user = new User(authData.user.uid, authData.user.photoURL, authData.user.displayName);
+        debugger;
+        firebase.database()
+            .ref("govie/users/")
+            .child(authData.user.uid).transaction(
+            function (currentUserData) {
+                if (currentUserData === null) {
+                    return user;
+                }
+                events.publish("user:login", user);
+            });
     }
 
     logout(events) {
@@ -68,7 +80,8 @@ export class UserService {
                 }
             });
         });
-    };
+    }
+    ;
 
 }
 
