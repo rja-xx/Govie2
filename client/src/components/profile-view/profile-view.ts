@@ -39,31 +39,41 @@ export class ProfileView {
         this.ownProfile = false;
         this.mayFollow = false;
         this.mayUnFollow = false;
-    }
-
-    ngAfterViewInit() {
-        console.log(this.uid);
-        this.ownProfile = this.uid === this.userService.currentUser().uid;
-        this.userService.getProfileByUID(this.uid).then(res => {
-            this.profile = new Profile(res);
-            this.cd.detectChanges();
-        });
-        this.userService.getNextProfileChange(this.uid, (key, value) => {
+        this.events.subscribe('profile:change', value => {
             console.log('detected profile change');
-            if (key === 'followers') {
-                this.profile.followers = value;
-            } else if (key === 'follows') {
-                this.profile.follows = value;
+            if (value.key === 'followers') {
+                this.profile.followers = value.val;
+            } else if (value.key === 'follows') {
+                this.profile.follows = value.val;
             } else {
                 return;
             }
             this.cd.detectChanges();
         });
-        var res = this.userService.getIsFollowing(this.uid);
-        this.mayFollow = !this.ownProfile && res;
-        this.mayUnFollow = !this.ownProfile && !res;
     }
 
+    ngAfterViewInit() {
+        console.log("init called with " + this.uid);
+        this.ownProfile = this.uid === this.userService.currentUser().uid;
+        this.userService.getProfileByUID(this.uid).then(res => {
+            this.profile = new Profile(res);
+            this.cd.detectChanges();
+        });
+        this.userService.getIsFollowing(this.uid).then(res => {
+            if (res) {
+                this.mayFollow = false;
+                this.mayUnFollow = !this.ownProfile;
+            } else {
+                this.mayFollow = !this.ownProfile;
+                this.mayUnFollow = false;
+            }
+            this.cd.detectChanges();
+        });
+    }
+
+    ngOnDestroy() {
+        console.log("on destroy called");
+    }
 
     promptEdit() {
         if (this.userService.currentUser() !== null) {
@@ -75,11 +85,19 @@ export class ProfileView {
     follow() {
         console.log(this.userService.currentUser().uid + " follow " + this.profile.uid)
         this.userService.follow(this.profile.uid);
+        this.mayFollow = false;
+        this.mayUnFollow = true;
+        this.profile.followers = this.profile.followers + 1;
+        this.cd.detectChanges();
     }
 
     unfollow() {
         console.log(this.userService.currentUser().uid + " unfollow " + this.profile.uid)
         this.userService.unfollow(this.profile.uid);
+        this.mayFollow = true;
+        this.mayUnFollow = false;
+        this.profile.followers = this.profile.followers - 1;
+        this.cd.detectChanges();
     }
 }
 
