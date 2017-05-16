@@ -66,7 +66,7 @@ export class SearchPage {
     }
 
     chooseUser(user) {
-        console.log(user);//todo
+        console.log(user);
         let modal = this.modalCtrl.create(ViewProfile, {uid: user.uid});
         modal.present();
     }

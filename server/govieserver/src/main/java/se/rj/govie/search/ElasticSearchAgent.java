@@ -6,12 +6,14 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import se.rj.govie.model.IndexableObject;
 import se.rj.govie.search.index.Index;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 @Component
 public class ElasticSearchAgent {
@@ -34,6 +36,11 @@ public class ElasticSearchAgent {
     public void disconnect() {
         logger.info("Closing elastic search client");
         client.close();
+    }
+
+    @Async
+    public void addToIndex(Index index, List<? extends IndexableObject> obj) {
+        obj.forEach(o -> addToIndex(index, o));
     }
 
     public void addToIndex(Index index, IndexableObject obj) {

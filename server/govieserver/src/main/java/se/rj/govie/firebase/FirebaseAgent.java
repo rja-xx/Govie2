@@ -11,12 +11,14 @@ import com.google.firebase.database.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.rj.govie.firebase.listeners.FollowRequestListener;
+import se.rj.govie.firebase.listeners.RateRequestListener;
 import se.rj.govie.firebase.listeners.UnfollowRequestListener;
 import se.rj.govie.firebase.listeners.UserEventListener;
 import se.rj.govie.firebase.listeners.search.SearchCinemaRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchMovieRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchUserRequestListener;
 import se.rj.govie.model.Profile;
+import se.rj.govie.request.RateRequest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -81,6 +83,9 @@ public class FirebaseAgent {
     @Autowired
     private UnfollowRequestListener unfollowRequestListener;
 
+    @Autowired
+    private RateRequestListener rateRequestListener;
+
     public void connect() {
         try {
             FileInputStream serviceAccount = new FileInputStream("src/main/resources/firebase_cert.json");
@@ -108,6 +113,7 @@ public class FirebaseAgent {
         firebaseDatabase.getReference("govie/request/search/cinema").addChildEventListener(searchCinemaRequestListener);
         firebaseDatabase.getReference("govie/request/follow").addChildEventListener(followRequestListener);
         firebaseDatabase.getReference("govie/request/unfollow").addChildEventListener(unfollowRequestListener);
+        firebaseDatabase.getReference("govie/request/rate").addChildEventListener(rateRequestListener);
     }
 
     public void disconnect() {
@@ -138,5 +144,10 @@ public class FirebaseAgent {
         firebaseDatabase.getReference("govie/profile/" + uid + "/follows").runTransaction(DECREMENT_VALUE_BY_ONE);
         firebaseDatabase.getReference("govie/profile/" + follow + "/followers").runTransaction(DECREMENT_VALUE_BY_ONE);
         firebaseDatabase.getReference("govie/followers").child(uid).child(follow).removeValue();
+    }
+
+    public void pushRate(RateRequest request) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("govie/rate/" + request.getUid()).setValue(request);
     }
 }
