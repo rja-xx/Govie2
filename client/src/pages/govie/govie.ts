@@ -8,6 +8,7 @@ import { NavController } from 'ionic-angular';
 })
 export class GoviePage {
 
+  rate:any
   constructor(public navCtrl: NavController) {
 
   }

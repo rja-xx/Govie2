@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { Ionic2RatingModule } from 'ionic2-rating';
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SearchPage } from '../pages/search/search';
@@ -31,7 +32,8 @@ import {RatingList} from "../components/rating-list/rating-list";
     ],
     imports: [
         IonicModule.forRoot(MyApp),
-        BrowserModule
+        BrowserModule,
+        Ionic2RatingModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
