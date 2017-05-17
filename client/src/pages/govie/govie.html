@@ -25,8 +25,8 @@
                 <!--<h3> {{item.releaseDate | amTimeAgo}} </h3>-->
             </ion-item>
         </ion-list>
-        <ion-item>
-            <ion-input type="text" placeholder="Choose cinema"></ion-input>
+        <ion-item (click)="chooseCinema()">
+            <ion-input type="text" placeholder="Choose cinema" [value]="cinemaName"></ion-input>
         </ion-item>
 
         <ion-item>

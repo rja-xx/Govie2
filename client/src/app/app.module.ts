@@ -14,6 +14,7 @@ import { EditProfilePage } from "../pages/edit-profile/edit-profile";
 import {ViewProfile} from "../pages/view-profile/view-profile";
 import {ProfileView} from "../components/profile-view/profile-view";
 import {RatingList} from "../components/rating-list/rating-list";
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
     declarations: [
@@ -48,7 +49,9 @@ import {RatingList} from "../components/rating-list/rating-list";
         ViewProfile,
         EditProfilePage
     ],
-    providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+    providers: [
+        Geolocation,
+        {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {
 }

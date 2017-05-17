@@ -6,6 +6,7 @@ import {MovieService} from "../../providers/movie/MovieService";
 import {Events} from "ionic-angular/index";
 import {UserService} from "../../providers/session/UserService";
 import {Movie} from "../../model/movie";
+import { Geolocation } from '@ionic-native/geolocation';
 
 @Component({
     selector: 'page-govie',
@@ -19,12 +20,14 @@ export class GoviePage {
     movieTitle:String;
     movieId:String;
 
+    cinemaName:String;
 
     constructor(public navCtrl:NavController,
                 private movieService:MovieService,
                 private events:Events,
                 private userService:UserService,
-                private cd:ChangeDetectorRef) {
+                private cd:ChangeDetectorRef,
+                public geolocation: Geolocation) {
 
     }
 
@@ -57,6 +60,10 @@ export class GoviePage {
         this.movieTitle = movie.title;
         this.movieId = movie.id;
         this.cd.detectChanges();
+    }
+
+    chooseCinema() {
+
     }
 
 }
