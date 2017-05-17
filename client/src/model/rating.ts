@@ -21,7 +21,6 @@ export class Rating {
         this._twitter = twitter;
     }
 
-
     get uid():string {
         return this._uid;
     }

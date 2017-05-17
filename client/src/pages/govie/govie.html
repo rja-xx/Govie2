@@ -8,11 +8,23 @@
 
 <ion-content>
     <ion-list inset>
-
         <ion-item>
-            <ion-input type="text" placeholder="Choose movie"></ion-input>
+            <ion-input ng-model-options="{ debounce: 1000 }"
+                       type="text"
+                       placeholder="Choose movie"
+                       (keyup)="searchMovies($event)"
+                       [value]="movieTitle">
+            </ion-input>
         </ion-item>
-
+        <ion-list *ngIf="movies">
+            <ion-item *ngFor="let item of movies" (click)="chooseMovie(item)">
+                <ion-thumbnail item-left>
+                    <img src="http://image.tmdb.org/t/p/w185/{{item.posterPath}}">
+                </ion-thumbnail>
+                <h2> {{ item.title }}</h2>
+                <!--<h3> {{item.releaseDate | amTimeAgo}} </h3>-->
+            </ion-item>
+        </ion-list>
         <ion-item>
             <ion-input type="text" placeholder="Choose cinema"></ion-input>
         </ion-item>
@@ -39,7 +51,5 @@
                 [(ngModel)]="rate" readOnly="false" max="5" emptyStarIconName="star-outline"
                 halfStarIconName="star-half" starIconName="star" nullable="false">
         </rating>
-        {{rate}}
-        <!--(ngModelChange)="onModelChange($event)"> &lt;!&ndash;use it when you need to do something when user clicks on a star. in case you only need to change ngModel property, this property can be ommited.&ndash;&gt;-->
     </ion-list>
 </ion-content>

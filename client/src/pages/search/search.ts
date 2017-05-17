@@ -20,7 +20,7 @@ import {Profile} from "../../model/profile";
 export class SearchPage {
 
     constructor(public navCtrl:NavController,
-                cd:ChangeDetectorRef,
+                private cd:ChangeDetectorRef,
                 public events:Events,
                 public modalCtrl:ModalController,
                 public userService:UserService,
@@ -30,20 +30,30 @@ export class SearchPage {
         this.movies = [];
         this.searchQuery = '';
         this.searchType = 'movies';
-        events.subscribe('user:search:result', (result) => {
+
+        this.getItems(null);
+    }
+
+    ionViewDidEnter() {
+        this.events.subscribe('user:search:result', (result) => {
             console.log(result);
             this.users = result;
-            cd.detectChanges();
+            this.cd.detectChanges();
         });
-        events.subscribe('movie:search:result', (result) => {
+        this.events.subscribe('movie:search:result', (result) => {
             console.log(result);
             this.movies = result.map(function (val) {
                 return new Movie(val.id, val.posterPath, val.backdropPath, val.title, val.releaseDate);
             });
-            cd.detectChanges();
+            this.cd.detectChanges();
         });
-        this.getItems(null);
     }
+
+    ionViewWillLeave() {
+        this.events.unsubscribe('movie:search:result');
+        this.events.unsubscribe('user:search:result');
+    }
+
 
     searchQuery:string;
     movies:Movie[];
