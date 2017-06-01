@@ -25,13 +25,33 @@
                 <!--<h3> {{item.releaseDate | amTimeAgo}} </h3>-->
             </ion-item>
         </ion-list>
-        <ion-item (click)="chooseCinema()">
-            <ion-input type="text" placeholder="Choose cinema" [value]="cinemaName"></ion-input>
-        </ion-item>
-
         <ion-item>
-            <ion-input type="text" placeholder="Add friends"></ion-input>
+            <ion-input ng-model-options="{ debounce: 1000 }"
+                       type="text"
+                       placeholder="Choose cinema"
+                       (keyup)="searchCinema($event)"
+                       [value]="cinemaName">
+            </ion-input>
         </ion-item>
+        <ion-list *ngIf="cinemas">
+            <ion-item *ngFor="let item of cinemas" (click)="chooseCinema(item)">
+                <h2> {{ item.name }}</h2>
+                <h3> {{ item.address }} </h3>
+            </ion-item>
+        </ion-list>
+        <ion-item>
+            <ion-input ng-model-options="{ debounce: 1000 }"
+                       type="text"
+                       placeholder="Tag friends"
+                       (keyup)="searchUser($event)"
+                       [value]="friendName">
+            </ion-input>
+        </ion-item>
+        <ion-list *ngIf="friends">
+            <ion-item *ngFor="let item of friends" (click)="chooseFriend(item)">
+                <h2> {{ friend.name }}</h2>
+            </ion-item>
+        </ion-list>
 
         <ion-item>
             <ion-input type="text" placeholder="Comment"></ion-input>
@@ -40,12 +60,12 @@
         <ion-item>
 
             <ion-label> Facebook</ion-label>
-            <ion-toggle checked="false"></ion-toggle>
+            <ion-toggle checked="false" [(ngModel)]="shareOnFacebook"></ion-toggle>
         </ion-item>
 
         <ion-item>
             <ion-label> Twitter</ion-label>
-            <ion-toggle checked="false"></ion-toggle>
+            <ion-toggle checked="false" [(ngModel)]="shareOnTwitter"></ion-toggle>
         </ion-item>
         <rating
                 [(ngModel)]="rate" readOnly="false" max="5" emptyStarIconName="star-outline"

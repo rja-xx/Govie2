@@ -22,6 +22,7 @@ import se.rj.govie.request.RateRequest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 import static com.google.firebase.database.Transaction.success;
@@ -97,6 +98,8 @@ public class FirebaseAgent {
 
             FirebaseApp.initializeApp(options);
         } catch (FileNotFoundException e) {
+            throw new RuntimeException("Connecting to firebase instance failed!", e);
+        } catch (IOException e) {
             throw new RuntimeException("Connecting to firebase instance failed!", e);
         }
     }

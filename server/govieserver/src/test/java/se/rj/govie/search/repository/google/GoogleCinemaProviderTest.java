@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GoogleCinemaProviderTest {
 
-    @Test
+    @Test(enabled = false)
     public void givenRequestForCincemasNearBy_whenProcessed_thenReturnItResults() throws Exception {
         List<Cinema> cinemas = new GoogleCinemaProvider().findNearBy(new SearchCinemaRequest("", "user", 59.8572422, 17.6343226));
         Assert.assertFalse(cinemas.isEmpty());

@@ -31,7 +31,7 @@ public class InTheaterCron {
     @Autowired
     private MovieRepository movieRepository;
 
-    @Scheduled(initialDelay = SECOND_IN_MILLIS, fixedRate = DAY_IN_MILLIS)
+//    @Scheduled(initialDelay = SECOND_IN_MILLIS, fixedRate = DAY_IN_MILLIS)
     void addInTheatersToIndex() {
         rangeClosed(1, MAX_PAGES).forEach(page -> {
             List<Movie> inCinemas = movieRepository.listInCinemas(page);
