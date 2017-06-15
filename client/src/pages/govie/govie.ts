@@ -28,10 +28,13 @@ export class GoviePage {
     cinemaId:string;
     cinemas:Cinema[];
     friends:User[];
-    addedFriends:User[];
+    addedFriends:string[];
     friendName:string;
     shareOnFacebook:boolean;
     shareOnTwitter:boolean;
+    comment:string;
+    rating:number;
+    uid:string;
 
     constructor(public navCtrl:NavController,
                 private movieService:MovieService,
@@ -43,6 +46,7 @@ export class GoviePage {
         this.shareOnFacebook = false;
         this.shareOnTwitter = false;
         this.addedFriends = [];
+        this.uid = this.userService.currentUser().uid;
     }
 
     ionViewDidEnter() {
@@ -58,7 +62,7 @@ export class GoviePage {
         this.events.subscribe('cinema:search:result', (result) => {
             console.log(result);
             this.cinemas = result.map(function (val) {
-                return new Cinema(val.reference, val.address, val.name);
+                return new Cinema(val.id, val.address, val.name);
             });
             this.cd.detectChanges();
         });
@@ -126,7 +130,7 @@ export class GoviePage {
 
     chooseFriend(friend) {
         this.friends = [];
-        this.addedFriends.push(friend);
+        this.addedFriends.push(friend.uid);
         console.log(friend);
         this.friendName = '';
         this.cd.detectChanges();
@@ -136,5 +140,18 @@ export class GoviePage {
         this.addedFriends = [];
         this.friendName = '';
         this.cd.detectChanges();
+    }
+
+    rate(evt) {
+        var rating = new Rating(
+            this.uid,
+            this.movieId,
+            this.cinemaId,
+            this.addedFriends,
+            this.comment,
+            this.rating,
+            this.shareOnFacebook,
+            this.shareOnTwitter);
+        this.movieService.submitRating(rating);
     }
 }

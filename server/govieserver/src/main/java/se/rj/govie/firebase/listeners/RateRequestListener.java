@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.rj.govie.firebase.FirebaseAgent;
-import se.rj.govie.request.FollowRequest;
 import se.rj.govie.request.RateRequest;
 
 @Component
@@ -18,9 +17,9 @@ public class RateRequestListener extends ChildEventAdapter {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        logger.info("Executing rate");
         dataSnapshot.getRef().removeValue();
         RateRequest request = RateRequest.fromDataSnapshot(dataSnapshot, RateRequest.class);
+        logger.info("Executing rate " + request);
         firebaseAgent.pushRate(request);
     }
 }

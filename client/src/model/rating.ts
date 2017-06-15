@@ -52,4 +52,17 @@ export class Rating {
     get twitter():boolean {
         return this._twitter;
     }
+
+    toObject():any {
+        return {
+            uid: this._uid,
+            movieId: this._movieId,
+            cinemaId: this._cinemaId,
+            friends: this._friends,
+            comment: this._comment,
+            rating: this._rating,
+            facebook: this._facebook,
+            twitter: this._twitter,
+        }
+    }
 }

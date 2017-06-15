@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import firebase from 'firebase';
 import {Movie} from "../../model/movie";
+import {Rating} from "../../model/rating";
 
 @Injectable()
 export class MovieService {
@@ -17,5 +18,8 @@ export class MovieService {
         firebase.database().ref("govie/request/search/movie").push({user: user.uid, term: term});
     }
 
+    submitRating(rating:Rating) {
+        firebase.database().ref("govie/request/rate").push(rating.toObject());
+    }
 }
 

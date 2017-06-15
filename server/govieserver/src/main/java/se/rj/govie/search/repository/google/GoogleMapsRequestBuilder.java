@@ -8,7 +8,9 @@ import java.util.stream.Stream;
 
 public class GoogleMapsRequestBuilder {
 
-    private static final String TMDB_MOVIE_BASE_PATH = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+    public static final double ROUND_FACTOR = 10000D;
+
+    private static final String GOOGLE_MAPS_SEARCH_BASE_PATH = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 
     private static final String API_KEY = "AIzaSyBri-BATjtjQwT96yJ9HAerE6Kqy1Vmbxo";
 
@@ -20,7 +22,9 @@ public class GoogleMapsRequestBuilder {
     }
 
     public GoogleMapsRequestBuilder withLocation(Double lon, Double lat) {
-        params.put("location", lon + "," + lat);
+        double longitude = (double) Math.round(lon * ROUND_FACTOR) / ROUND_FACTOR;
+        double latitude = (double) Math.round(lat * ROUND_FACTOR) / ROUND_FACTOR;
+        params.put("location", longitude + "," + latitude);
         return this;
     }
 
@@ -36,7 +40,7 @@ public class GoogleMapsRequestBuilder {
 
     public String build() {
         StringBuilder sb = new StringBuilder();
-        sb.append(TMDB_MOVIE_BASE_PATH);
+        sb.append(GOOGLE_MAPS_SEARCH_BASE_PATH);
         sb.append("?");
         if (!CollectionUtils.isEmpty(params)) {
             params.entrySet().forEach(e -> sb.append(e.getKey()).append("=").append(e.getValue()).append("&"));

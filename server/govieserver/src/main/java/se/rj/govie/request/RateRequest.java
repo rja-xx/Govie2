@@ -21,7 +21,7 @@ public class RateRequest extends FirebaseObject {
 
     private final String comment;
 
-    private final Double rating;
+    private final Integer rating;
 
     private final Boolean facebook;
 
@@ -33,7 +33,7 @@ public class RateRequest extends FirebaseObject {
                        @JsonProperty("cinemaId") String cinemaId,
                        @JsonProperty("friends") List<String> friends,
                        @JsonProperty("comment") String comment,
-                       @JsonProperty("rating") Double rating,
+                       @JsonProperty("rating") Integer rating,
                        @JsonProperty("facebook") Boolean facebook,
                        @JsonProperty("twitter") Boolean twitter) {
         this.uid = uid;
@@ -66,7 +66,7 @@ public class RateRequest extends FirebaseObject {
         return comment;
     }
 
-    public Double getRating() {
+    public Integer getRating() {
         return rating;
     }
 
