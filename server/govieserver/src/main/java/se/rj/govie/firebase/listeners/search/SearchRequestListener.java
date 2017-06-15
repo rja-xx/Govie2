@@ -29,8 +29,13 @@ public abstract class SearchRequestListener<T extends SearchRequest, R extends G
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         logger.info("Executing search for " + requestClass.getSimpleName());
         dataSnapshot.getRef().removeValue();
-        SearchRequest searchRequest = getSearchRequest(dataSnapshot);
-        firebaseAgent.pushResponse(searchRequest.getUser(), getSearchType(), search(dataSnapshot));
+        new Thread() {
+            @Override
+            public void run() {
+                SearchRequest searchRequest = getSearchRequest(dataSnapshot);
+                firebaseAgent.pushResponse(searchRequest.getUser(), getSearchType(), search(dataSnapshot));
+            }
+        }.start();
     }
 
     protected abstract RequestType getSearchType();

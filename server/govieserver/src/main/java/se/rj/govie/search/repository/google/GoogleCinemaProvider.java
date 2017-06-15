@@ -12,8 +12,10 @@ import se.rj.govie.search.index.CinemaIndex;
 import se.rj.govie.search.repository.CinemaRepository;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static se.rj.govie.search.repository.google.GoogleMapsSearchTypes.movie_theater;
+import static se.rj.govie.util.Memoizer.memoize;
 
 @Component
 public class GoogleCinemaProvider implements CinemaRepository {
@@ -25,6 +27,8 @@ public class GoogleCinemaProvider implements CinemaRepository {
     @Autowired
     private CinemaIndex cinemaIndex;
 
+    private Function<String, String> memoizedLookup = memoize(this::getCinemasInVicinity);
+
     @Override
     public List<Cinema> findNearBy(SearchCinemaRequest searchRequest) {
         List<Cinema> cinemas;
@@ -34,7 +38,8 @@ public class GoogleCinemaProvider implements CinemaRepository {
             cinemas = cinemaIndex.searchByName(searchRequest.getTerm());
         } else {
             String url = new GoogleMapsRequestBuilder(movie_theater).withLocation(lon, lat).withRadius(RADIUS).build();
-            CinemasNearByResponse res = CinemasNearByResponse.fromJson(getCinemasInVicinity(url), CinemasNearByResponse.class);
+            String cinemasInVicinityJSON = memoizedLookup.apply(url);
+            CinemasNearByResponse res = CinemasNearByResponse.fromJson(cinemasInVicinityJSON, CinemasNearByResponse.class);
             cinemas = res.getResults();
             logger.info("Found " + cinemas.size() + " cinemas near by");
             cinemas.forEach(cinemaIndex::add);
