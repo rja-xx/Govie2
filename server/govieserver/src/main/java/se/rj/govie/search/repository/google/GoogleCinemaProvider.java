@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.rj.govie.model.Cinema;
 import se.rj.govie.model.SearchCinemaRequest;
-import se.rj.govie.search.ElasticSearchAgent;
 import se.rj.govie.search.index.CinemaIndex;
 import se.rj.govie.search.repository.CinemaRepository;
 
@@ -19,25 +18,28 @@ import static se.rj.govie.search.repository.google.GoogleMapsSearchTypes.movie_t
 @Component
 public class GoogleCinemaProvider implements CinemaRepository {
 
-    private static final int RADIUS = 10000;
+    private static final int RADIUS = 1000;
 
     private static Logger logger = Logger.getLogger(GoogleCinemaProvider.class);
-
-    @Autowired
-    private ElasticSearchAgent elasticSearchAgent;
 
     @Autowired
     private CinemaIndex cinemaIndex;
 
     @Override
     public List<Cinema> findNearBy(SearchCinemaRequest searchRequest) {
+        List<Cinema> cinemas;
         Double lon = searchRequest.getLon();
         Double lat = searchRequest.getLat();
-        String url = new GoogleMapsRequestBuilder(movie_theater).withLocation(lon, lat).withRadius(RADIUS).build();
-        CinemasNearByResponse res = CinemasNearByResponse.fromJson(getCinemasInVicinity(url), CinemasNearByResponse.class);
-        logger.info("Found " + res.getResults().size() + " cinemas near by");
-        elasticSearchAgent.addToIndex(cinemaIndex, res.getResults());
-        return res.getResults();
+        if (lat == null && lon == null) {
+            cinemas = cinemaIndex.searchByName(searchRequest.getTerm());
+        } else {
+            String url = new GoogleMapsRequestBuilder(movie_theater).withLocation(lon, lat).withRadius(RADIUS).build();
+            CinemasNearByResponse res = CinemasNearByResponse.fromJson(getCinemasInVicinity(url), CinemasNearByResponse.class);
+            cinemas = res.getResults();
+            logger.info("Found " + cinemas.size() + " cinemas near by");
+            cinemas.forEach(cinemaIndex::add);
+        }
+        return cinemas;
     }
 
 

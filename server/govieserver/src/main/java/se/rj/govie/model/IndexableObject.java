@@ -4,7 +4,7 @@ import static java.lang.String.valueOf;
 
 public abstract class IndexableObject extends FirebaseObject {
 
-    private String id;
+    protected String id;
 
     public IndexableObject(String id) {
         this.id = id;

@@ -12,8 +12,6 @@ public class Cinema extends IndexableObject {
 
     public static final String CINEMA_TYPE = "cinema_type";
 
-    private final String reference;
-
     private final String name;
 
     private final Double lat;
@@ -24,13 +22,11 @@ public class Cinema extends IndexableObject {
 
     @JsonCreator
     public Cinema(@JsonProperty("id") String id,
-                  @JsonProperty("reference") String reference,
                   @JsonProperty("name") String name,
-                  @JsonProperty("lat") Double lat,
-                  @JsonProperty("long") Double lon,
-                  @JsonProperty("address") String address) {
+                  @JsonProperty("geometry.location.lat") Double lat,
+                  @JsonProperty("geometry.location.lng") Double lon,
+                  @JsonProperty("vicinity") String address) {
         super(id);
-        this.reference = reference;
         this.name = name;
         this.lat = lat;
         this.lon = lon;
@@ -53,10 +49,6 @@ public class Cinema extends IndexableObject {
         return address;
     }
 
-    public String getReference() {
-        return reference;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -71,7 +63,6 @@ public class Cinema extends IndexableObject {
         Cinema rhs = (Cinema) obj;
         return new EqualsBuilder()
                 .appendSuper(super.equals(obj))
-                .append(this.reference, rhs.reference)
                 .append(this.name, rhs.name)
                 .append(this.lat, rhs.lat)
                 .append(this.lon, rhs.lon)
@@ -83,7 +74,6 @@ public class Cinema extends IndexableObject {
     public int hashCode() {
         return new HashCodeBuilder()
                 .appendSuper(super.hashCode())
-                .append(reference)
                 .append(name)
                 .append(lat)
                 .append(lon)
@@ -96,7 +86,6 @@ public class Cinema extends IndexableObject {
     public String toString() {
         return new ToStringBuilder(this)
                 .appendSuper(super.toString())
-                .append("reference", reference)
                 .append("name", name)
                 .append("lat", lat)
                 .append("lon", lon)
@@ -111,6 +100,6 @@ public class Cinema extends IndexableObject {
 
     @Override
     public String getId() {
-        return reference;
+        return id;
     }
 }

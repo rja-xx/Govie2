@@ -39,11 +39,12 @@
                 <h3> {{ item.address }} </h3>
             </ion-item>
         </ion-list>
+        <button (click)="cinemasInVicinity($event)">search</button>
         <ion-item>
             <ion-input ng-model-options="{ debounce: 1000 }"
                        type="text"
                        placeholder="Tag friends"
-                       (keyup)="searchUser($event)"
+                       (keyup)="searchFriend($event)"
                        [value]="friendName">
             </ion-input>
         </ion-item>

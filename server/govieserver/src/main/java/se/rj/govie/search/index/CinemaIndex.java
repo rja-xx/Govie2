@@ -10,6 +10,8 @@ import se.rj.govie.search.ElasticSearchAgent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.rj.govie.model.Cinema.CINEMA_TYPE;
+
 @Component
 public class CinemaIndex extends Index<Cinema> {
 
@@ -20,7 +22,7 @@ public class CinemaIndex extends Index<Cinema> {
 
     public Cinema findByReference(String reference) {
         List<Cinema> res = new ArrayList<>();
-        elasticSearch.prepareSearch(getIndex()).setTypes(Cinema.CINEMA_TYPE)
+        elasticSearch.prepareSearch(getIndex()).setTypes(CINEMA_TYPE)
                      .setQuery(QueryBuilders.commonTermsQuery("reference", reference))
                      .setSize(1)
                      .get()
@@ -28,8 +30,18 @@ public class CinemaIndex extends Index<Cinema> {
         return res.get(0);
     }
 
+    public List<Cinema> searchByName(String term) {
+        List<Cinema> res = new ArrayList<>();
+        elasticSearch.prepareSearch(getIndex()).setTypes(CINEMA_TYPE)
+                     .setQuery(QueryBuilders.wildcardQuery("name", "*" + term + "*"))
+                     .setSize(20)
+                     .get()
+                     .getHits().forEach(hit -> res.add(Cinema.fromJson(hit.getSourceAsString().getBytes(), Cinema.class)));
+        return res;
+    }
+
     @Override
     public String getIndex() {
-        return "userindex";
+        return "cinemaindex";
     }
 }

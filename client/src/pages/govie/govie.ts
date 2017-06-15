@@ -24,6 +24,7 @@ export class GoviePage {
     movieId:string;
 
     cinemaName:string;
+    cinemaId:string;
     cinemas:Cinema[];
     friends:User[];
     friendName:string;
@@ -90,25 +91,31 @@ export class GoviePage {
     searchCinema(ev:any) {
         let val = ev ? ev.target.value : this.cinemaName;
         this.cinemaName = val;
+        this.cinemaService.searchCinema(this.cinemaName, this.events, this.userService.currentUser());
+    }
+
+    cinemasInVicinity(ev:any) {
         this.geolocation.getCurrentPosition().then(res => {
             var lat = res.coords.latitude;
             var lon = res.coords.longitude;
-            this.cinemaService.searchCinemaInVicinity(this.cinemaName, lat, lon, this.events, this.userService.currentUser());
-            console.log("found positino " + res.coords);
+            this.cinemaService.searchCinemaInVicinity(lat, lon, this.events, this.userService.currentUser());
+            console.log("found position " + res.coords);
         }).catch((error) => {
             console.log('Error getting location', error);
         });
-
-        console.log(this.shareOnFacebook);
-        console.log(this.shareOnTwitter);
     }
 
     chooseCinema(cinema) {
-        console.log("chose cinema: " + cinema);
+        this.cinemas = [];
+        console.log(cinema);
+        this.cinemaName = cinema.name;
+        this.cinemaId = cinema.id;
+        this.cd.detectChanges();
     }
 
     searchFriend(ev:any) {
         let val = ev ? ev.target.value : this.friendName;
+        console.log("search friend: " + val);
         if (val && val.trim() != '') {
             this.userService.searchUser(val.toLowerCase(), this.events);
         }
