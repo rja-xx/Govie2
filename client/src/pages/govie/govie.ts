@@ -10,6 +10,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import {CinemaService} from "../../providers/cinema/CinemaService";
 import {Cinema} from "../../model/cinema";
 import {User} from "../../model/user";
+import {Profile} from "../../model/profile";
 
 @Component({
     selector: 'page-govie',
@@ -27,6 +28,7 @@ export class GoviePage {
     cinemaId:string;
     cinemas:Cinema[];
     friends:User[];
+    addedFriends:User[];
     friendName:string;
     shareOnFacebook:boolean;
     shareOnTwitter:boolean;
@@ -40,6 +42,7 @@ export class GoviePage {
                 public cinemaService:CinemaService) {
         this.shareOnFacebook = false;
         this.shareOnTwitter = false;
+        this.addedFriends = [];
     }
 
     ionViewDidEnter() {
@@ -121,5 +124,17 @@ export class GoviePage {
         }
     }
 
+    chooseFriend(friend) {
+        this.friends = [];
+        this.addedFriends.push(friend);
+        console.log(friend);
+        this.friendName = '';
+        this.cd.detectChanges();
+    }
 
+    clearFriends(ev) {
+        this.addedFriends = [];
+        this.friendName = '';
+        this.cd.detectChanges();
+    }
 }
