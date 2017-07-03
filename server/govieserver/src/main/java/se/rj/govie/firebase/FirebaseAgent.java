@@ -10,20 +10,25 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.rj.govie.firebase.listeners.ChildEventAdapter;
 import se.rj.govie.firebase.listeners.FollowRequestListener;
+import se.rj.govie.firebase.listeners.RateEventListener;
 import se.rj.govie.firebase.listeners.RateRequestListener;
 import se.rj.govie.firebase.listeners.UnfollowRequestListener;
 import se.rj.govie.firebase.listeners.UserEventListener;
 import se.rj.govie.firebase.listeners.search.SearchCinemaRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchMovieRequestListener;
 import se.rj.govie.firebase.listeners.search.SearchUserRequestListener;
+import se.rj.govie.model.GovieEvent;
 import se.rj.govie.model.Profile;
+import se.rj.govie.model.WallEntry;
 import se.rj.govie.request.RateRequest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.google.firebase.database.Transaction.success;
 
@@ -87,6 +92,9 @@ public class FirebaseAgent {
     @Autowired
     private RateRequestListener rateRequestListener;
 
+    @Autowired
+    private RateEventListener rateEventListener;
+
     public void connect() {
         try {
             FileInputStream serviceAccount = new FileInputStream("src/main/resources/firebase_cert.json");
@@ -111,6 +119,7 @@ public class FirebaseAgent {
 
     private void setupUserEventListener(FirebaseDatabase firebaseDatabase) {
         firebaseDatabase.getReference("govie/users").addChildEventListener(userEventListener);
+        firebaseDatabase.getReference("govie/rate").addChildEventListener(rateEventListener);
         firebaseDatabase.getReference("govie/request/search/user").addChildEventListener(searchUserRequestListener);
         firebaseDatabase.getReference("govie/request/search/movie").addChildEventListener(searchMovieRequestListener);
         firebaseDatabase.getReference("govie/request/search/cinema").addChildEventListener(searchCinemaRequestListener);
@@ -150,7 +159,23 @@ public class FirebaseAgent {
     }
 
     public void pushRate(RateRequest request) {
+        FirebaseDatabase.getInstance().getReference("govie/rate/" + request.getUid()).setValue(request);
+    }
+
+    public void issueWallEntry(String uid, WallEntry wallEntry) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.getReference("govie/rate/" + request.getUid()).setValue(request);
+        firebaseDatabase.getReference("govie/wall/" + uid).push().setValue(wallEntry);
+        firebaseDatabase.getReference("govie/followers/" + uid).addChildEventListener(new ChildEventAdapter() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String follower = dataSnapshot.getKey();
+                firebaseDatabase.getReference("govie/wall/" + follower).push().setValue(wallEntry);
+            }
+        });
+    }
+
+    public void pushEvent(List<GovieEvent> event) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        event.forEach(a -> firebaseDatabase.getReference("govie/event/" + a.getUid()).push().setValue(a));
     }
 }

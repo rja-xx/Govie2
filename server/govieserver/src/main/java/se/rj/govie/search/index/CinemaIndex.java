@@ -20,10 +20,10 @@ public class CinemaIndex extends Index<Cinema> {
     @Autowired
     private ElasticSearchAgent elasticSearch;
 
-    public Cinema findByReference(String reference) {
+    public Cinema findById(String id) {
         List<Cinema> res = new ArrayList<>();
         elasticSearch.prepareSearch(getIndex()).setTypes(CINEMA_TYPE)
-                     .setQuery(QueryBuilders.commonTermsQuery("reference", reference))
+                     .setQuery(QueryBuilders.commonTermsQuery("id", id))
                      .setSize(1)
                      .get()
                      .getHits().forEach(hit -> res.add(Cinema.fromJson(hit.getSourceAsString().getBytes(), Cinema.class)));

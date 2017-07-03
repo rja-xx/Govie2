@@ -153,5 +153,6 @@ export class GoviePage {
             this.shareOnFacebook,
             this.shareOnTwitter);
         this.movieService.submitRating(rating);
+        this.navCtrl.parent.select(0);
     }
 }

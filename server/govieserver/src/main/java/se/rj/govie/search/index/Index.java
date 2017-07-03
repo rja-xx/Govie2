@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.rj.govie.model.IndexableObject;
 import se.rj.govie.search.ElasticSearchAgent;
 
+import java.util.List;
+
 public abstract class Index<T extends IndexableObject> {
 
     @Autowired
@@ -18,4 +20,5 @@ public abstract class Index<T extends IndexableObject> {
     public void clear(){
         elasticSearchAgent.clear(this);
     }
+
 }

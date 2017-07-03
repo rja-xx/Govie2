@@ -33,4 +33,14 @@ public class MovieIndex extends Index<Movie> {
     public String getIndex() {
         return "movieindex";
     }
+
+    public Movie findById(String movieId) {
+        List<Movie> res = new ArrayList<>();
+        elasticSearch.prepareSearch(getIndex()).setTypes(Movie.MOVIE_TYPE)
+                     .setQuery(QueryBuilders.idsQuery().addIds(movieId))
+                     .setSize(1)
+                     .get()
+                     .getHits().forEach(hit -> res.add(Movie.fromJson(hit.getSourceAsString().getBytes(), Movie.class)));
+        return res.get(0);
+    }
 }
