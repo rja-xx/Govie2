@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Moment} from 'moment';
 import {DataService} from "../../providers/data/DataService";
 import {User} from "../../model/user";
 import {Event} from "../../model/event";
+import {Events} from "ionic-angular/index";
+import {CinemaService} from "../../providers/cinema/CinemaService";
+import {Movie} from "../../model/movie";
+import {Cinema} from "../../model/cinema";
+import {EventService} from "../../providers/event/EventService";
+import {UserService} from "../../providers/session/UserService";
 
 /*
  Generated class for the Events page.
@@ -12,45 +18,34 @@ import {Event} from "../../model/event";
  Ionic pages and navigation.
  */
 @Component({
-  selector: 'page-events',
-  templateUrl: 'events.html',
-  providers: [DataService]
+    selector: 'page-events',
+    templateUrl: 'events.html',
+    providers: [EventService, UserService]
 })
 export class EventsPage {
 
-  events:Array<Event>;
+    events:Array<Event>;
 
-  constructor(public navCtrl:NavController,
-              public navParams:NavParams,
-              data:DataService) {
-    var user = new User('roger', 'assets/icons/govie_gubbe_red.png', 'Roger');
-    data.init();
-    this.events = [
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2'),
-      new Event(user, new Date(), 'Liked post', 'Roger liked your post on Terminator 2')
-    ];
+    constructor(public navCtrl:NavController,
+                public eventService:EventService,
+                private event:Events,
+                public userService:UserService,
+                cd:ChangeDetectorRef) {
+        this.events = [];
+        this.event.subscribe('event:event:new', (event) => {
+            console.log(event);
+            this.events.push(new Event(event.name, event.avatarUrl, event.date, event.type, "yeah"));
+            cd.detectChanges();
+        });
+    }
 
-  }
+    ionViewDidEnter() {
+        this.events = [];
+        this.eventService.subscribeToEvents(this.event, this.userService.currentUser());
+    }
 
-
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EventsPage');
-    //this.data.db.child('staticData').on('value', data => {
-    //  this.events[1].info = data.val().text;
-    //});
-  }
+    ionViewWillLeave() {
+        this.event.unsubscribe('event:event:new');
+    }
 
 }

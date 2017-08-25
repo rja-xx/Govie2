@@ -6,22 +6,23 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Events</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Events</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let event of events">
-      <ion-avatar item-left>
-        <img src="{{event.user.avatarUrl}}">
-      </ion-avatar>
-      <h2>{{event.user.name}} <p style="float: right">{{event.timestamp | date: smallDate}}<p></h2>
-      <h3>{{event.title}}</h3>
-      <p>{{event.info}}</p>
-    </ion-item>
-  </ion-list>
+    <ion-list>
+        <ion-item *ngFor="let event of events">
+            <ion-avatar item-left>
+                <img src="{{event.avatarUrl}}">
+            </ion-avatar>
+            <h2>{{event.name}} <p style="float: right">{{event.timestamp}}
+                <p></h2>
+            <h3>{{event.title}}</h3>
+            <p>{{event.info}}</p>
+        </ion-item>
+    </ion-list>
 </ion-content>

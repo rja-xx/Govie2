@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import se.rj.govie.request.RateRequest;
 import se.rj.govie.search.index.UserIndex;
 
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -21,7 +22,7 @@ public class EventFactory {
         return rateRequest.getFriends().stream().map(uid -> {
             String rater = rateRequest.getUid();
             User user = userIndex.searchByIds(singletonList(rater)).get(0);
-            return new GovieEvent(uid, user.getName(), user.getAvatarUrl(), mention);
+            return new GovieEvent(uid, user.getName(), user.getAvatarUrl(), mention, new Date());
         }).collect(toList());
     }
 }

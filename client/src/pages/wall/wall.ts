@@ -7,6 +7,7 @@ import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import {User} from "../../model/user";
 import { Moment} from 'moment';
+import {WallEntry} from "../../model/wallentry";
 
 
 @Component({
@@ -16,43 +17,39 @@ import { Moment} from 'moment';
 })
 export class WallPage {
 
-    user:string;
+    wallEntries:Array<WallEntry>
     error:string;
     i:number;
 
     constructor(public navCtrl:NavController,
                 public events:Events,
-                cd:ChangeDetectorRef,
+                public cd:ChangeDetectorRef,
                 public modalCtrl:ModalController,
                 public userService:UserService) {
-        this.user = 'hei';
-        this.user = 'sann';
 
-        events.subscribe('user:login', (user) => {
-            console.log(user);
-            this.user = user.name;
-            cd.detectChanges();
-        });
-
-        events.subscribe('user:logout', () => {
-            this.promptLogin();
-            cd.detectChanges();
-        });
 
         this.i = 5;
-        setTimeout(_ => {
-            if (this.userService.currentUser() === null) {
-                this.promptLogin();
-            }
-        }, 1000);
+        this.wallEntries = [];
     }
 
 
     ionViewDidLoad() {
-    }
+        this.events.subscribe('user:login', (user) => {
+            console.log(user);
+        });
 
-    timeAgo() {
-        return this.i;
+        this.events.subscribe('user:logout', () => {
+            this.promptLogin();
+        });
+
+        this.events.subscribe('wall:entry:added', (entry) => {
+            this.wallEntries.push(entry)
+            this.cd.detectChanges();
+        });
+
+        if (this.userService.currentUser() === null) {
+            this.promptLogin();
+        }
     }
 
     private promptLogin() {

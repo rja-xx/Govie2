@@ -1,18 +1,18 @@
-import { User} from './user';
-
 export class Event {
 
-  user:User;
-  timestamp:Date;
-  title:string;
-  info:string;
+    name:string;
+    avatarUrl:string;
+    timestamp:Date;
+    title:string;
+    info:string;
 
-  constructor(user:User, timestamp:Date, title:string, info:string) {
-    this.user = user;
-    this.timestamp = timestamp;
-    this.title = title;
-    this.info = info;
-  }
+    constructor(name:string, avatarUrl:string, timestamp:Date, title:string, info:string) {
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+        this.timestamp = timestamp;
+        this.title = title;
+        this.info = info;
+    }
 
 
 }

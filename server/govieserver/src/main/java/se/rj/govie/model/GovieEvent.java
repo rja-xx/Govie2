@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Date;
+
 public class GovieEvent {
 
     private final String uid;
@@ -14,11 +16,14 @@ public class GovieEvent {
 
     private final EventType type;
 
-    GovieEvent(String uid, String name, String avatarUrl, EventType type) {
+    private final Date date;
+
+    GovieEvent(String uid, String name, String avatarUrl, EventType type, Date date) {
         this.uid = uid;
         this.name = name;
         this.avatarUrl = avatarUrl;
         this.type = type;
+        this.date = date;
     }
 
     public String getUid() {
@@ -37,35 +42,42 @@ public class GovieEvent {
         return type;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
+    public Date getDate() {
+        return date;
+    }
 
-        if (!(o instanceof GovieEvent)) {
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-
-        GovieEvent that = (GovieEvent) o;
-
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        GovieEvent rhs = (GovieEvent) obj;
         return new EqualsBuilder()
-                .append(getUid(), that.getUid())
-                .append(getName(), that.getName())
-                .append(getAvatarUrl(), that.getAvatarUrl())
-                .append(getType(), that.getType())
+                .append(this.uid, rhs.uid)
+                .append(this.name, rhs.name)
+                .append(this.avatarUrl, rhs.avatarUrl)
+                .append(this.type, rhs.type)
+                .append(this.date, rhs.date)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(getUid())
-                .append(getName())
-                .append(getAvatarUrl())
-                .append(getType())
+        return new HashCodeBuilder()
+                .append(uid)
+                .append(name)
+                .append(avatarUrl)
+                .append(type)
+                .append(date)
                 .toHashCode();
     }
+
 
     @Override
     public String toString() {
@@ -74,6 +86,7 @@ public class GovieEvent {
                 .append("name", name)
                 .append("avatarUrl", avatarUrl)
                 .append("type", type)
+                .append("date", date)
                 .toString();
     }
 }
