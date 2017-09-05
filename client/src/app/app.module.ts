@@ -15,6 +15,8 @@ import {ViewProfile} from "../pages/view-profile/view-profile";
 import {ProfileView} from "../components/profile-view/profile-view";
 import {RatingList} from "../components/rating-list/rating-list";
 import { Geolocation } from '@ionic-native/geolocation';
+import { IonicStorageModule } from '@ionic/storage';
+
 
 @NgModule({
     declarations: [
@@ -34,7 +36,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     imports: [
         IonicModule.forRoot(MyApp),
         BrowserModule,
-        Ionic2RatingModule
+        Ionic2RatingModule,
+        IonicStorageModule.forRoot()
     ],
     bootstrap: [IonicApp],
     entryComponents: [

@@ -19,10 +19,11 @@
             <ion-avatar item-left>
                 <img src="{{event.avatarUrl}}">
             </ion-avatar>
-            <h2>{{event.name}} <p style="float: right">{{event.timestamp}}
-                <p></h2>
+            <h2>{{event.name}}
+                <p style="float: right">{{event.timestamp | date:'yyyy-MM-dd HH:mm'}}
+                <p>
+            </h2>
             <h3>{{event.title}}</h3>
-            <p>{{event.info}}</p>
         </ion-item>
     </ion-list>
 </ion-content>

@@ -10,6 +10,9 @@ import {Movie} from "../../model/movie";
 import {Cinema} from "../../model/cinema";
 import {EventService} from "../../providers/event/EventService";
 import {UserService} from "../../providers/session/UserService";
+import { Storage } from '@ionic/storage';
+import _ from 'underscore';
+
 
 /*
  Generated class for the Events page.
@@ -25,22 +28,35 @@ import {UserService} from "../../providers/session/UserService";
 export class EventsPage {
 
     events:Array<Event>;
+    persistedEvents:Array<any>;
 
     constructor(public navCtrl:NavController,
                 public eventService:EventService,
                 private event:Events,
+                private storage:Storage,
                 public userService:UserService,
                 cd:ChangeDetectorRef) {
         this.events = [];
+        this.persistedEvents = [];
+        this.storage.get('govieevents').then((events) => {
+            var items = JSON.parse(events);
+            for (let a in items) {
+                var event = items[a];
+                this.persistedEvents.push(event);
+                this.events.push(new Event(event.name, event.avatarUrl, event.date, event.type, "yeah"));
+                cd.detectChanges();
+            }
+        });
         this.event.subscribe('event:event:new', (event) => {
-            console.log(event);
+            this.persistedEvents.push(event);
             this.events.push(new Event(event.name, event.avatarUrl, event.date, event.type, "yeah"));
+            var value = JSON.stringify(this.persistedEvents);
+            this.storage.set('govieevents', value);
             cd.detectChanges();
         });
     }
 
     ionViewDidEnter() {
-        this.events = [];
         this.eventService.subscribeToEvents(this.event, this.userService.currentUser());
     }
 
