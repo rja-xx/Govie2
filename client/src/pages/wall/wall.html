@@ -6,7 +6,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <ion-item *ngFor="let entry of wallEntries">
       <ion-thumbnail item-left>
         <img src="img/thumbnail-totoro.png">
       </ion-thumbnail>

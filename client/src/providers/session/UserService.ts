@@ -24,7 +24,6 @@ export class UserService {
 
     private persistUserDetails(authData, events) {
         var user = new User(authData.user.uid, authData.user.photoURL, authData.user.displayName);
-        debugger;
         firebase.database()
             .ref("govie/users/")
             .child(authData.user.uid).transaction(
