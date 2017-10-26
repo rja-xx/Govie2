@@ -25,7 +25,7 @@ export class WallPage {
     i:number;
 
     constructor(public navCtrl:NavController,
-                public events:Events,
+                public event:Events,
                 public eventService:EventService,
                 public cd:ChangeDetectorRef,
                 public modalCtrl:ModalController,
@@ -35,6 +35,7 @@ export class WallPage {
 
         this.i = 5;
         this.wallEntries = [];
+        debugger;
         this.storage.get('goviewall').then((wall) => {
             debugger;
             var items = JSON.parse(wall);
@@ -59,7 +60,7 @@ export class WallPage {
                 cd.detectChanges();
             }
         });
-        this.events.subscribe('event:wall:new', (event) => {
+        this.event.subscribe('event:wall:new', (event) => {
             debugger;
             this.persistedWallEntries.push(event);
             this.wallEntries.push(new WallEntry(
@@ -85,11 +86,11 @@ export class WallPage {
 
     ionViewDidLoad() {
         debugger;
-        this.events.subscribe('user:login', (user) => {
+        this.event.subscribe('user:login', (user) => {
             console.log(user);
         });
 
-        this.events.subscribe('user:logout', () => {
+        this.event.subscribe('user:logout', () => {
             this.promptLogin();
         });
         if (this.userService.currentUser() === null) {
@@ -99,13 +100,14 @@ export class WallPage {
 
     ionViewDidEnter() {
         debugger;
-        this.eventService.subscribeToWall(this.events, this.userService.currentUser());
+        this.eventService.subscribeToWall(this.event, this.userService.currentUser());
         console.log('subscribing to wall')
     }
 
 
     ionViewWillLeave() {
-        this.events.unsubscribe('event:wall:new');
+        debugger;
+        this.event.unsubscribe('event:wall:new');
     }
 
     private promptLogin() {
