@@ -16,6 +16,7 @@ import {ProfileView} from "../components/profile-view/profile-view";
 import {RatingList} from "../components/rating-list/rating-list";
 import { Geolocation } from '@ionic-native/geolocation';
 import { IonicStorageModule } from '@ionic/storage';
+import {Splash} from "../pages/splash/splash";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { IonicStorageModule } from '@ionic/storage';
         ProfilePage,
         WallPage,
         EventsPage,
+        Splash,
         TabsPage,
         LoginPage,
         ViewProfile,
@@ -50,7 +52,8 @@ import { IonicStorageModule } from '@ionic/storage';
         TabsPage,
         LoginPage,
         ViewProfile,
-        EditProfilePage
+        EditProfilePage,
+        Splash
     ],
     providers: [
         Geolocation,

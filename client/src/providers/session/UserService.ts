@@ -8,6 +8,7 @@ export class UserService {
     private twitterProvider:any;
 
     init() {
+        debugger;
         this.twitterProvider = new firebase.auth.TwitterAuthProvider();
     }
 

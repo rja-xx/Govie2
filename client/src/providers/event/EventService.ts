@@ -6,7 +6,6 @@ import {Event} from "../../model/event";
 export class EventService {
 
     subscribeToEvents(events, user) {
-        debugger;
         firebase.database().ref("govie/event/" + user.uid).on('value', function fn(snapshot) {
             var value = snapshot.val();
             if (value !== null) {
@@ -20,7 +19,6 @@ export class EventService {
 
     subscribeToWall(events, user) {
         firebase.database().ref("govie/wall/" + user.uid).on('value', function fn(snapshot) {
-            debugger;
             var value = snapshot.val();
             if (value !== null) {
                 for (let i in value) {

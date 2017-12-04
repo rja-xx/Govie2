@@ -15,7 +15,7 @@ import {EventService} from "../../providers/event/EventService";
 @Component({
     selector: 'page-wall',
     templateUrl: 'wall.html',
-    providers: [UserService, EventService]
+    providers: [EventService, UserService]
 })
 export class WallPage {
 
@@ -27,17 +27,18 @@ export class WallPage {
     constructor(public navCtrl:NavController,
                 public event:Events,
                 public eventService:EventService,
-                public cd:ChangeDetectorRef,
+                cd:ChangeDetectorRef,
                 public modalCtrl:ModalController,
                 public userService:UserService,
                 private storage:Storage) {
 
 
         this.i = 5;
+
         this.wallEntries = [];
-        debugger;
+        this.persistedWallEntries = [];
         this.storage.get('goviewall').then((wall) => {
-            debugger;
+
             var items = JSON.parse(wall);
             for (let a in items) {
                 var event = items[a];
@@ -61,7 +62,6 @@ export class WallPage {
             }
         });
         this.event.subscribe('event:wall:new', (event) => {
-            debugger;
             this.persistedWallEntries.push(event);
             this.wallEntries.push(new WallEntry(
                 event.id,
@@ -85,7 +85,6 @@ export class WallPage {
     }
 
     ionViewDidLoad() {
-        debugger;
         this.event.subscribe('user:login', (user) => {
             console.log(user);
         });
@@ -99,14 +98,12 @@ export class WallPage {
     }
 
     ionViewDidEnter() {
-        debugger;
         this.eventService.subscribeToWall(this.event, this.userService.currentUser());
         console.log('subscribing to wall')
     }
 
 
     ionViewWillLeave() {
-        debugger;
         this.event.unsubscribe('event:wall:new');
     }
 
